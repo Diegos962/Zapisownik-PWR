@@ -66,6 +66,7 @@ class Window: public QMainWindow
   void ZablokujNakladajace();
   void ZmienPotomkow();  
   void filtry();
+  bool SprawdzPotok(const QString &potok, const QString &kodKursu, QTreeWidgetItem *wybrany) const;
   bool porownajGodziny(QString g1, QString g2);
   FiltryDialog *filtrowanie;
   bool tablicaCzasu[2][5][174];

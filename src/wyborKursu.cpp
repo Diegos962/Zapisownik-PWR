@@ -109,6 +109,34 @@ void Window::ZmienPotomkow()
     }
 }
 
+bool Window::SprawdzPotok(const QString &potok, const QString &kodK, QTreeWidgetItem *wybrany) const
+{
+  QString kodKursu = kodK.left(kodK.size()-1);
+  for(int i = 0; i < tree->topLevelItemCount(); i++)
+    {
+      auto parent = tree->topLevelItem(i);
+      if(parent != wybrany)
+	{
+	  for(int j = 0; j < parent->childCount(); j++)
+	    {
+	      auto child = static_cast<TreeWidgetItem *> (parent->child(j));
+	      QString tmpKodKursu = parent->text(9);
+	      tmpKodKursu = tmpKodKursu.left(tmpKodKursu.size()-1);
+	      if(tmpKodKursu != kodKursu)
+		break;
+	      CheckBox *box = static_cast<CheckBox *> (tree->itemWidget(child, 0));
+	      if(box->isChecked())
+		{
+		  if(child->text(7) == potok)
+		    return true;
+		  else
+		    return false;
+		}
+	    }
+	}
+    }
+  return true;
+}
 
 void Window::Zaznaczono()
 {
@@ -119,6 +147,13 @@ void Window::Zaznaczono()
   QStringList data = child->kodTermin().split(";", QString::SkipEmptyParts);
   if(box->isChecked())
     {
+      if(!SprawdzPotok(child->text(7), parent->text(9), parent))
+	{
+	  QMessageBox msg;
+	  msg.critical(this, "Błąd", "Niezgodność potoków");
+	  box->animateClick();
+	  return;
+	}
       for(QString str: data)
 	{
 	  if(str.size() != 11)
