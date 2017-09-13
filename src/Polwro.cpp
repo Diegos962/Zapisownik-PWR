@@ -3,7 +3,7 @@
 void LoginWindow::PolwroGUI()
 {
   labelHead->setText("Logowanie do polwro.pl");
-  labelHead->setStyleSheet("QLabel {color: black; font-size: 18px;}");
+  labelHead->setStyleSheet("QLabel {color: yellow; font-size: 18px;}");
   labelHead->setVisible(true);
   buttons->setEnabled(true);
   buttons->setVisible(true);

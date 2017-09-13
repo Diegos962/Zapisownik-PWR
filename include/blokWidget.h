@@ -27,4 +27,12 @@ class BlokWidget: public QLabel
     void leaveEvent(QEvent *);
 };
 
+class Day: public QLabel
+{
+  Q_OBJECT
+ public:
+  explicit Day(QString text, QWidget *parent = 0);
+  void enterEvent(QEvent *);
+};
+
 #endif

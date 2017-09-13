@@ -77,7 +77,7 @@ void BlokWidget::enterEvent(QEvent *)
   duzy->setStyleSheet(styleSheet());
 
   duzy->setText(text());
-  // duzy->show();
+  duzy->show();
   const QRect fontRect = QFontMetrics(duzy->font()).boundingRect(rect(), Qt::TextWordWrap, text());
   duzy->setGeometry(0, 0, 250, fontRect.height());
 }
@@ -85,4 +85,12 @@ void BlokWidget::enterEvent(QEvent *)
 void BlokWidget::leaveEvent(QEvent *)
 {
   delete duzy;
+}
+
+Day::Day(QString text, QWidget *parent): QLabel(text, parent)
+{}
+
+void Day::enterEvent(QEvent *)
+{
+  lower();
 }

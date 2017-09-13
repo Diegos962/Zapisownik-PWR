@@ -42,7 +42,7 @@ void Window::ustawGodzinyNaSiatceH()
 
 void Window::ustawDzienNaSiatce(QString dzien, int row, int col, int rowSpan, int colSpan)
 {
-  QLabel *day = new QLabel(dzien, this);
+  Day *day = new Day(dzien, this);
   day->setStyleSheet("QLabel {color: rgba(255, 244, 48, 50);}");
   QFont font = day->font();
   font.setPixelSize(34);

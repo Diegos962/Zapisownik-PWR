@@ -142,7 +142,6 @@ void LoginWindow::process()
 void LoginWindow::GUI_wybor_kierunku(QTextStream &data)
 {
   labelHead->setText("Wybierz kierunek kształcenia");
-  labelHead->setStyleSheet("QLabel {color: black; font-size: 14px;}");
 
   ineSluId = parse_uczppsid(data, "ineSluId", "\"");
 
@@ -203,7 +202,6 @@ void LoginWindow::PickSemester(QTextStream &reply)
 void LoginWindow::GUI_select_semester()
 {
   labelHead->setText("Wybierz semestr");
-  labelHead->setStyleSheet("QLabel {color: black; font-size: 14px;}");
   for(int i = 0; i < comboKierunki->count();)
     comboKierunki->removeItem(0);
   ActiveWidget(comboKierunki);
@@ -255,7 +253,6 @@ void LoginWindow::PickZapisy(QNetworkReply *reply)
 void LoginWindow::GUI_select_zapisy()
 {
   labelHead->setText("Wybierz zapisy");
-  labelHead->setStyleSheet("QLabel {color: black; font-size: 14px;}");
   for(int i = 0; i < comboKierunki->count();)
     comboKierunki->removeItem(0);
   ActiveWidget(comboKierunki);
@@ -1021,7 +1018,7 @@ void LoginWindow::change_head_error(const QString &error)
 void LoginWindow::grey_out(const QString &text)
 {
   labelHead->setText(text);
-  labelHead->setStyleSheet("QLabel {color: black; font-size: 18px;}");
+  labelHead->setStyleSheet("QLabel {color: yellow; font-size: 18px;}");
   buttons->setEnabled(false);
   editPassword->setEnabled(false);
   editUsername->setEnabled(false);
