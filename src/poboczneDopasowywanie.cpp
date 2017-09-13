@@ -87,7 +87,7 @@ void dopasuj(Kurs &a, QList<Prowadzacy> prow)
   float max = 0, lev = 0, len = 0;
   float percentage = 0, percentage2 = 0;
   QString nazwa, tmpx, tmp, temp;
-  std::vector<std::pair<QString, QString>> replacements
+  QVector<QPair<QString, QString>> replacements
   {{"ą", "a"}, {"ć", "c"}, {"ę", "e"}, {"ł", "l"}, {"ń", "n"}, {"ó", "o"}, {"ś", "s"}, {"ź", "z"}, {"ż", "z"}};
   if(a.lista().size() != 0)
     if(a.lista().at(0).size() != 0)

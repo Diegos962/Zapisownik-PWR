@@ -20,15 +20,19 @@ void BlokWidget::resizeFont()
   const QRect baseRect = contentsRect();
   const QString baseText = text();
   int fontSizeGuess = 5;
+  int zapas = 10;
   QSplitter *splt = static_cast<QSplitter *> (parent()->parent());
   if(splt->orientation() == Qt::Vertical)
-    fontSizeGuess = 10;
+    {
+      fontSizeGuess = 10;
+      zapas = 45;
+    }
   for(;; ++fontSizeGuess)
     {
       QFont testFont(basefont);
       testFont.setPixelSize(fontSizeGuess);
       const QRect fontRect = QFontMetrics(testFont).boundingRect(rect(), Qt::TextWordWrap, baseText);
-      if(fontRect.height() + 20 > baseRect.height() || fontRect.width() + 20 > baseRect.width())
+      if(fontRect.height() + 15 > baseRect.height() || fontRect.width() + zapas > baseRect.width())
 	break;
     }
   for(; fontSizeGuess > 1; --fontSizeGuess)
@@ -73,7 +77,7 @@ void BlokWidget::enterEvent(QEvent *)
   duzy->setStyleSheet(styleSheet());
 
   duzy->setText(text());
-  duzy->show();
+  // duzy->show();
   const QRect fontRect = QFontMetrics(duzy->font()).boundingRect(rect(), Qt::TextWordWrap, text());
   duzy->setGeometry(0, 0, 250, fontRect.height());
 }

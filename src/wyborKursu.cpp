@@ -59,7 +59,6 @@ bool Window::CzyPozycjaWolna(int start, int len, int dzien, int tydzien)
 
 void Window::ZablokujNakladajace()
 {
-  QElapsedTimer t1;
   for(int i = 0; i < tree->topLevelItemCount(); i++)
     {
       auto parent = tree->topLevelItem(i);
@@ -70,16 +69,17 @@ void Window::ZablokujNakladajace()
 	  for(QString str: data)
 	    {
 	      QPair<int, int> godziny = convertDate(str.mid(3, 8));
-	      if(!CzyPozycjaWolna(godziny.first, godziny.second, str[1].digitValue(), str[0].digitValue()))
+	      CheckBox *box = static_cast<CheckBox *> (tree->itemWidget(child, 0));
+	      if(!CzyPozycjaWolna(godziny.first, godziny.second, str[1].digitValue(), str[0].digitValue()) || !SprawdzPotok(child->text(7), parent->text(9), parent))
 		{
 		  child->setBackground(0, QBrush("red"));
-		  (static_cast<CheckBox *> (tree->itemWidget(child, 0)))->setEnabled(false);
+		  box->setEnabled(false);
 		  break;
 		}
 	      else
 		{
 		  child->setBackground(0, QBrush("white"));
-		  (static_cast<CheckBox *> (tree->itemWidget(child, 0)))->setEnabled(true);
+		  box->setEnabled(true);
 		}
 	    }
 	}
@@ -147,13 +147,6 @@ void Window::Zaznaczono()
   QStringList data = child->kodTermin().split(";", QString::SkipEmptyParts);
   if(box->isChecked())
     {
-      if(!SprawdzPotok(child->text(7), parent->text(9), parent))
-	{
-	  QMessageBox msg;
-	  msg.critical(this, "Błąd", "Niezgodność potoków");
-	  box->animateClick();
-	  return;
-	}
       for(QString str: data)
 	{
 	  if(str.size() != 11)
@@ -231,7 +224,7 @@ QList<QList<Kurs>> Window::zwrocListeNajmniejszych(QList<QString> kod)
 	    {
 	      auto child = static_cast<TreeWidgetItem *> (parent->child(j));
 	      CheckBox *box = static_cast<CheckBox *> (tree->itemWidget(child, 0));
-	      if(box->isEnabled() && child->background(0).color().name() != "#ff0000")
+	      if(box->isEnabled() && !child->schowany() && !child->isHidden())
 		wolne[i].push_back(child->kurs());
 	    }
 	}
@@ -245,17 +238,16 @@ QList<QList<Kurs>> Window::zwrocListeNajmniejszych(QList<QString> kod)
 
 void Window::losujPlan()
 {
-  odznaczZaznaczone();
+  // odznaczZaznaczone();
   QList<QString> wybrane;
   QList<QList<Kurs>> wolne = zwrocListeNajmniejszych(wybrane);
-  std::random_device rd;
-  std::mt19937 rng(rd());  
+  QTime time = QTime::currentTime();
+  qsrand((uint)time.msec());
   for(int i = 0; i < wolne.size(); i++)
     {
       if(wolne[i].size() < 1)
 	continue;
-      std::uniform_int_distribution<int> uni(0, wolne[i].size()-1);
-      int random = uni(rng);
+      int random = qrand() % (wolne[i].size());
       zaznaczKurs(wolne[i][random].kodKursu(), wolne[i][random].kodGrupy());      
       wybrane.push_back(wolne[i][random].kodKursu());
       wolne = zwrocListeNajmniejszych(wybrane);

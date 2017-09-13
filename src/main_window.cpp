@@ -21,6 +21,8 @@ Window::Window(QWidget *parent): QMainWindow(parent)
   tree->setSelectionMode(QAbstractItemView::NoSelection);
   tree->setSortingEnabled(true);
   tree->setRootIsDecorated(false);
+  tree->setColumnWidth(2, 250);
+  tree->setColumnWidth(5, 150);
   connect(tree, &QTreeWidget::itemClicked, this, &Window::TreeHeaderClicked);
   
   siatka = new QGridLayout();
@@ -109,8 +111,8 @@ void Window::filtry()
       for(int j = 0; j < parent->childCount(); j++)
 	{
 	  auto child = static_cast<TreeWidgetItem *> (parent->child(j));
-	  
-	  if(child->schowany())
+	  CheckBox *box = static_cast<CheckBox *> (tree->itemWidget(child, 0));
+	  if(child->schowany() || box->isChecked())
 	    continue;
 	  if(filtrowanie->ukryjZajete())
 	    {
@@ -191,9 +193,7 @@ void Window::filtry()
 	      QStringList oceny = child->text(3).split("|", QString::SkipEmptyParts);
 	      float srednia = 0;
 	      for(QString xya: oceny)
-		{
-		  srednia += xya.toFloat();
-		}
+		srednia += xya.toFloat();
 	      if(srednia != 0 && srednia < filtrowanie->ukryjOcenaWartosc())
 		{
 		  child->setHidden(true);

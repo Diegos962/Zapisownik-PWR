@@ -1,6 +1,7 @@
 #ifndef POBOCZNE_H
 #define POBOCZNE_H
 #include <QStringList>
+#include <numeric>
 
 QString DecodeTermin(const QString &ter);
 bool sprawdzTerminy(const QString &text);

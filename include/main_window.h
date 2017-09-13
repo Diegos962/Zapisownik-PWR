@@ -58,6 +58,11 @@ class Window: public QMainWindow
   void drawGridH(int rows, int columnms);
   void drawCourse(int row, int tydzien, int column, int length, QString grupa,
 		  QString text, QColor color, QColor fcolor, QString kKursu, QString czas);
+  void raiseHorizontalLines();
+  void ustawDzienNaSiatce(QString dzien, int row,
+			  int col, int rowSpan, int colSpan);
+  void ustawGodzinyNaSiatceV();
+  void ustawGodzinyNaSiatceH();
   /***************************/
 
   /*****WYBOR KURSU*********/

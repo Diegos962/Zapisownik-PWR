@@ -229,5 +229,4 @@ void Window::build_tree()
 	}
     }
   UpdateColors();
-  tree->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
