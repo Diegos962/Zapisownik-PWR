@@ -2,6 +2,8 @@
 #define POBOCZNEDOPASOWYWANIE_H
 #include <QList>
 #include <QString>
+#include <QVector>
+#include <QPair>
 #include "kursy_grupy_bloki.h"
 
 void dopasuj(Kurs &a, QList<Prowadzacy> prow);

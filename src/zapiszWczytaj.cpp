@@ -335,8 +335,8 @@ void Window::ZapiszKursy()
   QString fileName = QFileDialog::getSaveFileName(this, "Zapisz plik", QDir::currentPath(), "Pliki kursów (*.krs)");
   if(fileName.size() == 0)
     return;
-  if (!fileName.endsWith(".pln"))
-    fileName += ".pln";
+  if (!fileName.endsWith(".krs"))
+    fileName += ".krs";
   QFile file(fileName);
   if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
@@ -368,8 +368,8 @@ void Window::ZapiszProwadzacych()
   QString fileName = QFileDialog::getSaveFileName(this, "Zapisz plik", QDir::currentPath(), "Pliki prowadzących (*.prw)");
   if(fileName.size() == 0)
     return;
-  if (!fileName.endsWith(".pln"))
-    fileName += ".pln";
+  if (!fileName.endsWith(".prw"))
+    fileName += ".prw";
   QFile file(fileName);
   if(!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
