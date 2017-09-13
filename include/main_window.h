@@ -85,6 +85,8 @@ class Window: public QMainWindow
   void add_branch(int ilosc);
   void Przedmioty();
   void reload();
+  QList<QString> zapamietajWybraneKursy();
+  void wczytajWybraneKursy(const QList<QString> &stareKody);
   /**************************/
 
   void WczytywanieEduAKZ(QList<Kurs> lista);

@@ -203,6 +203,38 @@ void Window::update_tree()
   UpdateColors();
 }
 
+QList<QString> Window::zapamietajWybraneKursy()
+{
+  QList<QString> wybraneKody;
+  for(int i = 0; i < tree->topLevelItemCount(); i++)
+    {
+      auto parent = tree->topLevelItem(i);
+      for(int j = 0; j < parent->childCount(); j++)
+	{
+	  auto child = static_cast<TreeWidgetItem *>(parent->child(j));
+	  CheckBox *box = static_cast<CheckBox *> (tree->itemWidget(child, 0));
+	  if(box->isChecked())
+	    wybraneKody.push_back(child->text(1));
+	}
+    }
+  return wybraneKody;
+}
+
+void Window::wczytajWybraneKursy(const QList<QString> &stareKody)
+{
+  for(int i = 0; i < tree->topLevelItemCount(); i++)
+    {
+      auto parent = tree->topLevelItem(i);
+      for(int j = 0; j < parent->childCount(); j++)
+	{
+	  auto child = static_cast<TreeWidgetItem *>(parent->child(j));
+	  CheckBox *box = static_cast<CheckBox *> (tree->itemWidget(child, 0));
+	  if(stareKody.contains(child->text(1)))
+	    box->setChecked(true);
+	}
+    }
+}
+
 void Window::build_tree()
 {
   int size = 0;

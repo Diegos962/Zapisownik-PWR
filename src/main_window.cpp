@@ -224,6 +224,7 @@ void Window::filtry()
 }
 void Window::reload()
 {
+  QList<QString> stareKody = zapamietajWybraneKursy();
   for(auto x: naSiatce)
     delete x;
   for(auto &i: tablicaCzasu)
@@ -235,6 +236,7 @@ void Window::reload()
   tree->clear();
   Przedmioty();  
   build_tree();
+  wczytajWybraneKursy(stareKody);
 }
 
 void Window::TreeHeaderClicked(QTreeWidgetItem *parent)
