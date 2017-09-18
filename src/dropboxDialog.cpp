@@ -92,6 +92,7 @@ void dropboxDialog::pobierz()
   tree->setEnabled(false);
   QByteArray data = dropbox->downloadFile("/dropbox" + tree->currentItem()->text(2));
   QTextStream stream(data);
+  stream.setCodec("UTF-8");
   while(!stream.atEnd())
     {
       Kurs aaa;

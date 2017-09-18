@@ -183,7 +183,7 @@ void Window::wczytajProwadzacychZPliku()
 void Window::wyslijPolwroNaDropboxa(const QList<Prowadzacy> &lista)
 {
   QString nazwaPliku = "/polwro/" + QString::number(lista.size()) + "|"
-    +  QString::number(QDateTime::currentSecsSinceEpoch()) + ".txt";
+    +  QString::number(QDateTime::currentMSecsSinceEpoch()/1000) + ".txt";
   QByteArray data;
   for(auto a: lista)
     {
@@ -355,7 +355,7 @@ void Window::wczytajKursyZEdukacji()
       fDane.insert(fDane.indexOf("PO"), "/");
       folderPliku = "/kursy/" + fDane + "/" + l.folderZapisy().replace('/', '-') + "/" + l.folderKryterium().replace('/', '-')
 	+ "/" + l.folderPlanStudiow().replace('/', '-') + "/" + l.folderSemestr().replace('/', '-') + "/";
-      nazwaPliku = QString::number(l.lista_kursow.size()) + "|" + QString::number(QDateTime::currentSecsSinceEpoch()) + ".txt";
+      nazwaPliku = QString::number(l.lista_kursow.size()) + "|" + QString::number(QDateTime::currentMSecsSinceEpoch()/1000) + ".txt";
       wyslijNaDropboxa(l.lista_kursow, folderPliku+nazwaPliku);
     }
 }

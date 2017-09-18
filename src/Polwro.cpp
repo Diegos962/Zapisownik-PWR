@@ -31,6 +31,7 @@ void LoginWindow::PolwroGUI()
 		    return;
 		  }
 		QTextStream stream(data);
+		stream.setCodec("UTF-8");
 		while(!stream.atEnd())
 		  {
 		    Prowadzacy aaa;

@@ -581,6 +581,7 @@ bool LoginWindow::pytanieOWyborZrodla()
 	  progressBar->setRange(0, 100);
 	  progressBar->setValue(0);
 	  QTextStream stream(data);
+	  stream.setCodec("UTF-8");
 	  while(!stream.atEnd())
 	    {
 	      Kurs aaa;
