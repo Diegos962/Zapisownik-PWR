@@ -3,8 +3,6 @@
 void Window::ustawMenu()
 {
   menu = new QMenuBar(this);
-  QAction *LosujPlan = new QAction("Losuj plan", this);
-  connect(LosujPlan, &QAction::triggered, this, &Window::losujPlan);
   
   QAction *oProgramie = new QAction("O programie", this);
   connect(oProgramie, &QAction::triggered, this, [=]
@@ -17,7 +15,6 @@ void Window::ustawMenu()
   menu->addMenu(ustawMenuPlik());
   menu->addMenu(ustawMenuEdycja());
   menu->addMenu(ustawMenuWidok());
-  menu->addAction(LosujPlan);
   menu->addAction(oProgramie);
 }
 

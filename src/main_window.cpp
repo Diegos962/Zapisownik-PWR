@@ -45,11 +45,33 @@ Window::Window(QWidget *parent): QMainWindow(parent)
   splitter->setOrientation(Qt::Vertical);
   
   QVBoxLayout *layout = new QVBoxLayout();
-  
+  QToolBar *toolBar = new QToolBar(this);
   layout->setMenuBar(menu);
+  layout->addWidget(toolBar);  
   layout->addWidget(splitter);
   widget->setLayout(layout);
   dropbox = new Dropbox("akzjias9zhjkio3", "evnrg7bxbavcvl6", this);
+
+  toolBar->setStyleSheet("QToolBar{spacing:15px;}");
+  QAction *zapiszPlanTymczasowo = toolBar->addAction(QIcon("icons/save.png"), "Zapisz plan tymaczasowo");
+  QAction *wczytajTymczasowyPlan = toolBar->addAction(QIcon("icons/load.png"), "Wczytaj tymczasowy plan");
+  QAction *dolosujKursy = toolBar->addAction(QIcon("icons/random1.png"), "Dolosuj kursy");
+  QAction *wylosujCalyPlan = toolBar->addAction(QIcon("icons/random2.png"), "Wylosuj cały plan");
+  connect(zapiszPlanTymczasowo, &QAction::triggered, this, &Window::zapiszPlanTymczasowoAction);
+  connect(wczytajTymczasowyPlan, &QAction::triggered, this, &Window::wczytajTymczasowyPlanAction);
+  connect(dolosujKursy, &QAction::triggered, this, &Window::losujPlan);
+  connect(wylosujCalyPlan, &QAction::triggered, [=] {odznaczZaznaczone(); losujPlan();});
+}
+
+void Window::zapiszPlanTymczasowoAction()
+{
+  tymczasowoZapisane = zapamietajWybraneKursy();
+}
+
+void Window::wczytajTymczasowyPlanAction()
+{
+  odznaczZaznaczone();
+  wczytajWybraneKursy(tymczasowoZapisane);
 }
 
 Window::~Window()

@@ -238,7 +238,6 @@ QList<QList<Kurs>> Window::zwrocListeNajmniejszych(QList<QString> kod)
 
 void Window::losujPlan()
 {
-  // odznaczZaznaczone();
   QList<QString> wybrane;
   QList<QList<Kurs>> wolne = zwrocListeNajmniejszych(wybrane);
   QTime time = QTime::currentTime();

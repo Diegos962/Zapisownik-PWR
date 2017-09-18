@@ -27,6 +27,7 @@
 #include <QtConcurrent>
 #include <QEvent>
 #include <QPainter>
+#include <QToolBar>
 #include <random>
 #include <QGraphicsOpacityEffect>
 #include "poboczneTerminy.h"
@@ -95,6 +96,8 @@ class Window: public QMainWindow
   void reload();
   QList<QString> zapamietajWybraneKursy();
   void wczytajWybraneKursy(const QList<QString> &stareKody);
+  void zapiszPlanTymczasowoAction();
+  void wczytajTymczasowyPlanAction();
   /**************************/
 
   void WczytywanieEduAKZ(const QList<Kurs> &lista);
@@ -116,6 +119,7 @@ class Window: public QMainWindow
   QList<BlokWidget *> naSiatce;
   QList<QPair<CheckBox *, QTreeWidgetItem *>> wybraneZajecia;
   QList<QString> ukryjTerminy;
+  QList<QString> tymczasowoZapisane;
 
   public slots:
     void ZmienKolory();
