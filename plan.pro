@@ -51,6 +51,5 @@ QT += core
 
   OBJECTS_DIR = obj/
   MOC_DIR = moc/
-  include("qtdropbox/libqtdropbox.pri")
   QMAKE_LFLAGS += -Wl,-rpath,"'$$ORIGIN'"
-  LIBS += -L$$PWD/qtdropbox/lib -lQtDropbox -Wl,-R$$PWD/qtdropbox/lib
+  LIBS += -L$$PWD/ -lQtDropbox -Wl,-R$$PWD/
