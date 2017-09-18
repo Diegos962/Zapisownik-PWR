@@ -319,7 +319,8 @@ void Window::wyslijNaDropboxa(const QList<Kurs> &lista, const QString &nazwaPlik
       data.append(a.forma());
       data.append('\n');
       QString prow;
-      prow = a.prowadzacy().at(0);
+      if(a.prowadzacy().size() > 0)
+	prow = a.prowadzacy().at(0);
       for(int i = 1; i < a.prowadzacy().size(); i++)
 	prow += "||" + a.prowadzacy().at(i);
       data.append(prow);
@@ -416,21 +417,22 @@ void Window::ZapiszKursy()
     }
   QTextStream out(&file);
   for(auto y: przedmioty)
-  for(auto x: y)
-    {
-      QString data;
-      out << x.kodKursu() << '\n';
-      out << x.kodGrupy() << '\n';
-      out << x.nazwa() << '\n';
-      out << x.forma() << '\n';
-      data = x.prowadzacy().at(0);
-      for(int i = 1; i < x.prowadzacy().size(); i++)
-	data += "||" + x.prowadzacy().at(i);
-      out << data << '\n';
-      out << x.termin() << '\n';
-      out << x.miejsca() << '\n';
-      out << x.potok() << '\n';
-    }
+    for(auto x: y)
+      {
+	QString data;
+	out << x.kodKursu() << '\n';
+	out << x.kodGrupy() << '\n';
+	out << x.nazwa() << '\n';
+	out << x.forma() << '\n';
+	if(x.prowadzacy().size() > 0)
+	  data = x.prowadzacy().at(0);
+	for(int i = 1; i < x.prowadzacy().size(); i++)
+	  data += "||" + x.prowadzacy().at(i);
+	out << data << '\n';
+	out << x.termin() << '\n';
+	out << x.miejsca() << '\n';
+	out << x.potok() << '\n';
+      }
 }
 
 void Window::ZapiszProwadzacych()
