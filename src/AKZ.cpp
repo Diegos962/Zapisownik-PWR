@@ -241,5 +241,5 @@ void LoginWindow::AKZ_download()
   buttonMajor->setText("Zakończ");
   buttonMajor->disconnect();
   connect(buttonMajor, &QPushButton::clicked,
-	  this, &QDialog::accept);
+	  [=] {QDialog::done(2);});
 }
