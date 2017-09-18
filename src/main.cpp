@@ -9,12 +9,12 @@ int main(int argc, char *argv[])
   QRect rec = a.desktop()->screenGeometry();
   int height = rec.height();
   int width = rec.width();
-  if(width < 1250)
-    width = 1150;
+  if(width < 1300)
+    width = width - 100;
   else
     width = 1250;
-  if(height < 800)
-    height = 750;
+  if(height < 900)
+    height = height - 100;
   else
     height = 830;
   
