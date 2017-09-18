@@ -2,42 +2,42 @@
 
 void Window::ustawGodzinyNaSiatceV()
 {
-  QLabel *godz1 = new QLabel("7:30", this);
+  QLabel *godz1 = new QLabel("7:00", this);
   siatka->addWidget(godz1, 0, 0, 1, 0);
   QLabel *godz2 = new QLabel("9:00", this);
-  siatka->addWidget(godz2, 0, 16, 1, -1);
+  siatka->addWidget(godz2, 0, 22, 1, -1);
   QLabel *godz3 = new QLabel("11:00", this);
-  siatka->addWidget(godz3, 0, 40, 1, -1);
+  siatka->addWidget(godz3, 0, 46, 1, -1);
   QLabel *godz4 = new QLabel("13:00", this);
-  siatka->addWidget(godz4, 0, 64, 1, -1);
+  siatka->addWidget(godz4, 0, 70, 1, -1);
   QLabel *godz5 = new QLabel("15:00", this);
-  siatka->addWidget(godz5, 0, 88, 1, -1);
+  siatka->addWidget(godz5, 0, 94, 1, -1);
   QLabel *godz6 = new QLabel("17:00", this);
-  siatka->addWidget(godz6, 0, 112, 1, -1);
+  siatka->addWidget(godz6, 0, 118, 1, -1);
   QLabel *godz7 = new QLabel("19:00", this);
-  siatka->addWidget(godz7, 0, 136, 1, -1);
+  siatka->addWidget(godz7, 0, 142, 1, -1);
   QLabel *godz8 = new QLabel("21:00", this);
-  siatka->addWidget(godz8, 0, 160, 1, -1);
+  siatka->addWidget(godz8, 0, 166, 1, -1);
 }
 
 void Window::ustawGodzinyNaSiatceH()
 {
-  QLabel *godz1 = new QLabel("7:30", this);
+  QLabel *godz1 = new QLabel("7:00", this);
   siatka->addWidget(godz1, 0, 1, 5, 1);
   QLabel *godz2 = new QLabel("9:00", this);
-  siatka->addWidget(godz2, 16, 1, 5, 1);
+  siatka->addWidget(godz2, 22, 1, 5, 1);
   QLabel *godz3 = new QLabel("11:00", this);
-  siatka->addWidget(godz3, 40, 1, 5, 1);
+  siatka->addWidget(godz3, 46, 1, 5, 1);
   QLabel *godz4 = new QLabel("13:00", this);
-  siatka->addWidget(godz4, 64, 1, 5, 1);
+  siatka->addWidget(godz4, 70, 1, 5, 1);
   QLabel *godz5 = new QLabel("15:00", this);
-  siatka->addWidget(godz5, 88, 1, 5, 1);
+  siatka->addWidget(godz5, 94, 1, 5, 1);
   QLabel *godz6 = new QLabel("17:00", this);
-  siatka->addWidget(godz6, 112, 1, 5, 1);
+  siatka->addWidget(godz6, 118, 1, 5, 1);
   QLabel *godz7 = new QLabel("19:00", this);
-  siatka->addWidget(godz7, 136, 1, 5, 1);
+  siatka->addWidget(godz7, 142, 1, 5, 1);
   QLabel *godz8 = new QLabel("21:00", this);
-  siatka->addWidget(godz8, 160, 1, 5, 1);
+  siatka->addWidget(godz8, 166, 1, 5, 1);
 }
 
 void Window::ustawDzienNaSiatce(QString dzien, int row, int col, int rowSpan, int colSpan)
@@ -50,9 +50,9 @@ void Window::ustawDzienNaSiatce(QString dzien, int row, int col, int rowSpan, in
   siatka->addWidget(day, row, col, rowSpan, colSpan);
   QColor clr =  QWidget::palette().color(QWidget::backgroundRole());
   if(clr.red() > 230 && clr.green() > 230 && clr.blue() > 230)
-    day->setStyleSheet("QLabel {color: rgba(49, 54, 59, 50);}");
+    day->setStyleSheet("QLabel {color: rgba(49, 54, 59, 90);}");
   else
-    day->setStyleSheet("QLabel {color: rgba(255, 244, 48, 50);}");
+    day->setStyleSheet("QLabel {color: rgba(255, 244, 48, 90);}");
 }
 
 void Window::drawGridV(int rows, int columns)
@@ -68,7 +68,7 @@ void Window::drawGridV(int rows, int columns)
       QFrame *linea1 = new QFrame();
       linea1->setFrameShape(QFrame::HLine);
       linea1->setFrameShadow(QFrame::Plain);
-      linea1->setLineWidth(2);
+      linea1->setLineWidth(3);
       siatka->addWidget(linea1, i, 0, 1, columns+1);
     }
   for(int j = 0; j <= columns; j++)
@@ -76,7 +76,7 @@ void Window::drawGridV(int rows, int columns)
       QFrame *linea = new QFrame();
       linea->setFrameShadow(QFrame::Plain);
       linea->setFrameShape(QFrame::VLine);
-      if((j+6)%12 == 0)
+      if((j)%12 == 0)
 	linea->setLineWidth(3);
       if(j%3 == 0)
 	siatka->addWidget(linea, 2, j, rows*3+1, 1);
@@ -97,15 +97,15 @@ void Window::drawGridH(int rows, int columns)
       QFrame *linea = new QFrame();
       linea->setFrameShadow(QFrame::Plain);
       linea->setFrameShape(QFrame::VLine);
-      linea->setLineWidth(2);
-      siatka->addWidget(linea, 0, j, rows+3, 1);
+      linea->setLineWidth(3);
+      siatka->addWidget(linea, 0, j, rows+2, 1);
     }
   for(int i = 0; i < rows+3; i++)
     {
       QFrame *linea1 = new QFrame();
       linea1->setFrameShape(QFrame::HLine);
       linea1->setFrameShadow(QFrame::Plain);
-      if((i+6)%12 == 0)
+      if((i)%12 == 0)
 	linea1->setLineWidth(3);
       if(i%3 == 0)
 	siatka->addWidget(linea1, i, 2, 2, columns*3+1);
@@ -137,6 +137,7 @@ void Window::drawCourse(int row, int tydzien, int column, int length, QString gr
     }
   else
     rowSpan = 2;
+  
   if(splitter->orientation() == Qt::Vertical)
     {
       siatka->addWidget(blok, row*3+2+tydzien, column, rowSpan, length/5 + 1);

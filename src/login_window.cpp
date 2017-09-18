@@ -1,9 +1,10 @@
 #include "../include/login_window.h"
 
-LoginWindow::LoginWindow(QWidget *parent): QDialog(parent)
+LoginWindow::LoginWindow(Dropbox *d, QWidget *parent): QDialog(parent)
 {
   setWindowTitle("Logowanie");
   setModal(true);
+  db = d;
   progressBar = new QProgressBar(this);
   progressBarBot = new QProgressBar(this);
   formGridLayout = new QGridLayout(this);
@@ -218,6 +219,7 @@ void LoginWindow::SelectSemester()
 {
   if(comboKierunki->currentIndex() == -1)
     return;
+  FolderDane = comboKierunki->currentText();
   grey_out("ŁĄCZENIE...");
   QString zapisy = "https://edukacja.pwr.wroc.pl/EdukacjaWeb/zapisy.do?clEduWebSESSIONTOKEN=" + clEduWebSESSIONTOKEN
     + "&event=wyborSemestruRow&rowId="+id_semesters[comboKierunki->currentIndex()]
@@ -269,6 +271,7 @@ void LoginWindow::SelectZapisy()
 {
   if(comboKierunki->currentIndex() == -1)
     return;
+  FolderZapisy = comboKierunki->currentText();
   grey_out("ŁĄCZENIE");
   QUrlQuery postData;
   postData.addQueryItem("clEduWebSESSIONTOKEN", clEduWebSESSIONTOKEN);
@@ -294,6 +297,25 @@ void LoginWindow::SelectZapisy()
   else if(page.indexOf("Parametry wyszukiwania", 0) == -1)
     {
       change_head_error("Brak dostępu do zapisów");
+      QString fDane, folderPliku;
+      fDane = folderDane();
+      fDane.replace('/', '-');
+      fDane.insert(9, '/');
+      int pos = 0;
+      if( (pos = fDane.indexOf("DWU")) != -1)
+	fDane = fDane.left(pos+3);
+      fDane.insert(fDane.indexOf("PO"), "/");
+      folderPliku = "/kursy/" + fDane + "/" + folderZapisy().replace('/', '-') + "/";
+      dropboxDialog d(db, folderPliku);
+      d.show();
+      int ret = d.exec();
+      if(ret)
+	{
+	  lista_kursow = d.listaK;
+	  QDialog::done(2);
+	}
+      else
+	QDialog::reject();
       return;
     }
   else
@@ -374,6 +396,7 @@ void LoginWindow::select_Wektor_Plan()
     }
   QByteArray page = reply->readAll();
   QTextStream stream(&page);
+  FolderKryterium = comboKierunki->currentText();
   if(comboKierunki->currentIndex() == 1)
     {
       pairUczWpp.first = prase_value(page, "uczWppNazwa");
@@ -425,6 +448,7 @@ void LoginWindow::Select_PlanStudiow()
 {
   if(comboKierunki->currentIndex() < 1)
     return;
+  FolderPlanStudiow = comboKierunki->currentText();
   grey_out("ŁĄCZENIE");
   QUrlQuery postData;
   postData.addQueryItem("clEduWebSESSIONTOKEN", clEduWebSESSIONTOKEN);
@@ -473,6 +497,7 @@ void LoginWindow::SelectSemestr_ZPLANU()
 {
   if(comboSemestr->currentIndex() < 1)
     return;
+  FolderSemestr = comboSemestr->currentText();
   grey_out("ŁĄCZENIE");
   QUrlQuery postData;
   postData.addQueryItem("clEduWebSESSIONTOKEN", clEduWebSESSIONTOKEN);
@@ -499,6 +524,7 @@ void LoginWindow::SelectSemestr_ZWEKTORA()
 {
   if(comboSemestr->currentIndex() < 1)
     return;
+  FolderSemestr = comboSemestr->currentText();
   grey_out("ŁĄCZENIE");
   QUrlQuery postData;
   postData.addQueryItem("clEduWebSESSIONTOKEN", clEduWebSESSIONTOKEN);
@@ -520,8 +546,72 @@ void LoginWindow::SelectSemestr_ZWEKTORA()
   ZnajdzBlokiGrupyKursy(stream, "Kursy z wektora zapisowego", false);
 }
 
+bool LoginWindow::pytanieOWyborZrodla()
+{
+  QString folderPliku, nazwaPliku, fDane;
+  fDane = folderDane();
+  fDane.replace('/', '-');
+  fDane.insert(9, '/');
+  int pos = 0;
+  if( (pos = fDane.indexOf("DWU")) != -1)
+    fDane = fDane.left(pos+3);
+  fDane.insert(fDane.indexOf("PO"), "/");
+  folderPliku = "/kursy/" + fDane + "/" + folderZapisy().replace('/', '-') + "/" + folderKryterium().replace('/', '-')
+    + "/" + folderPlanStudiow().replace('/', '-') + "/" + folderSemestr().replace('/', '-') + "/";
+  QList<QDropboxFileInfo> terminyDB = db->filterData(folderPliku);
+  if(terminyDB.size() > 0)
+    {
+      QDropboxFileInfo info = terminyDB.at(terminyDB.size()-1);
+      QString nazwaPliku = info.root() + info.path();
+      QString czasNowego = info.modified().toTimeSpec(Qt::LocalTime).toString("dd.MM.yyyy hh.mm");
+      QString pytanie = (QString("Na serwerze znajduje się plik z dnia %2.\nMożesz go pobrać i odciążyć serwery edukacji!"))
+        .arg(czasNowego);
+      QMessageBox msg;
+      msg.addButton(QMessageBox::No)->setText("Pobierz z edukacji");
+      msg.addButton(QMessageBox::Yes)->setText("Pobierz z zew. serwera");
+      msg.setText(pytanie);
+      msg.setWindowTitle("Wybór źródła");
+      int ret = msg.exec();
+      if(ret == QMessageBox::Yes)
+	{
+	  QByteArray data = db->downloadFile(nazwaPliku);
+	  if(data.size() == 0)
+	    return false;
+
+	  progressBar->setRange(0, 100);
+	  progressBar->setValue(0);
+	  QTextStream stream(data);
+	  while(!stream.atEnd())
+	    {
+	      Kurs aaa;
+	      aaa.setKodKursu(stream.readLine());
+	      aaa.setKodGrupy(stream.readLine());
+	      aaa.setNazwa(stream.readLine());
+	      aaa.setForma(stream.readLine());
+	      aaa.setProwadzacy(stream.readLine().split("||", QString::SkipEmptyParts));
+	      aaa.setTermin(stream.readLine());
+	      aaa.setMiejsca(stream.readLine());
+	      aaa.setPotok(stream.readLine());
+	      lista_kursow.push_back(aaa);
+	    }
+	  return true;
+	}
+    }
+  return false;
+}
+
 void LoginWindow::ZnajdzBlokiGrupyKursy(QTextStream &stream, const QString &nazwa, const bool &nr)
 {
+  clear_window();
+  progressBar->setVisible(true);
+  progressBar->setRange(0, 100);
+  progressBar->setValue(0);
+  labelHead->setText("POBIERANIE");
+  if(pytanieOWyborZrodla())
+    {
+      QDialog::done(2);
+      return;
+    }
   bool start = false, end = false;
   QString line;
   KursyGrupyBloki tmp;
@@ -577,14 +667,22 @@ void LoginWindow::ZnajdzBlokiGrupyKursy(QTextStream &stream, const QString &nazw
       end = false;
       stream.device()->reset();
     }
-  clear_window();
-  progressBar->setVisible(true);
-  progressBar->setRange(0, 100);
-  progressBar->setValue(0);
-  labelHead->setText("POBIERANIE");
   rozdajBlokiGrupyKursy(nr);
 }
 
+void LoginWindow::zakonczonoPobieranie()
+{
+  QString koniec = "ZAKOŃCZONO POBIERANIE.\nPOBRANO "
+    + QString::number(lista_kursow.size()) + " KURSÓW";
+  labelHead->setText(koniec);
+  progressBar->setVisible(false);
+
+  ActiveWidget(buttonMajor);
+  buttonMajor->setText("Zakończ");
+  buttonMajor->disconnect();
+  connect(buttonMajor, &QPushButton::clicked,
+	  this, &QDialog::accept);
+}
 
 void LoginWindow::rozdajBlokiGrupyKursy(const bool &nr)
 {
@@ -623,17 +721,7 @@ void LoginWindow::rozdajBlokiGrupyKursy(const bool &nr)
 	  progressBar->setValue(count/lista_zajec.size());
 	}
     }
-
-  QString koniec = "ZAKOŃCZONO POBIERANIE.\nPOBRANO "
-    + QString::number(lista_kursow.size()) + " KURSÓW";
-  labelHead->setText(koniec);
-  progressBar->setVisible(false);
-
-  ActiveWidget(buttonMajor);
-  buttonMajor->setText("Zakończ");
-  buttonMajor->disconnect();
-  connect(buttonMajor, &QPushButton::clicked,
-	  this, &QDialog::accept);
+  zakonczonoPobieranie();
 }
   
 
@@ -1012,13 +1100,13 @@ void LoginWindow::change_head_error(const QString &error)
   editPassword->setEnabled(true);
   editUsername->setEnabled(true);
   editPassword->setText("");
-  editUsername->setText("");
+  // editUsername->setText("");
 }
 
 void LoginWindow::grey_out(const QString &text)
 {
   labelHead->setText(text);
-  labelHead->setStyleSheet("QLabel {color: yellow; font-size: 18px;}");
+  labelHead->setStyleSheet(QString("QLabel {color: %1; font-size: 18px;}").arg(palette().color(QPalette::WindowText).name()));
   buttons->setEnabled(false);
   editPassword->setEnabled(false);
   editUsername->setEnabled(false);
@@ -1095,3 +1183,9 @@ QString LoginWindow::return_href(const QString &line)
   int pos2 = line.indexOf("\"", pos1);
   return line.mid(pos1, pos2-pos1);
 }
+
+QString LoginWindow::folderDane() const {return FolderDane;}
+QString LoginWindow::folderZapisy() const {return FolderZapisy;}
+QString LoginWindow::folderKryterium() const {return FolderKryterium;}
+QString LoginWindow::folderPlanStudiow() const {return FolderPlanStudiow;}
+QString LoginWindow::folderSemestr() const {return FolderSemestr;}

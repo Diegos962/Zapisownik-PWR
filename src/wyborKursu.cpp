@@ -10,7 +10,7 @@ QPair<int, int> convertDate(QString text)
   hours2 += text[5].digitValue()*60;
   hours2 += text.mid(6, 2).toInt();
   QPair<int, int> ret;
-  ret.first = (hours - 450)/5;
+  ret.first = (hours - 420)/5;
   ret.second = hours2 - hours;
   return ret;
 }

@@ -27,7 +27,7 @@ Window::Window(QWidget *parent): QMainWindow(parent)
   
   siatka = new QGridLayout();
   siatka->setContentsMargins(0, 0, 0, 0);
-  drawGridV(5, 14.5*12);
+  drawGridV(5, 15*12);
 
   splitter = new QSplitter;
   splitter->setHandleWidth(3);
@@ -49,6 +49,7 @@ Window::Window(QWidget *parent): QMainWindow(parent)
   layout->setMenuBar(menu);
   layout->addWidget(splitter);
   widget->setLayout(layout);
+  dropbox = new Dropbox("akzjias9zhjkio3", "evnrg7bxbavcvl6", this);
 }
 
 Window::~Window()
@@ -65,11 +66,11 @@ void Window::PrzelaczWidok()
   if(splitter->orientation() == Qt::Vertical)
     {
       splitter->setOrientation(Qt::Horizontal);
-      drawGridH(14.5*12, 5);
+      drawGridH(15*12, 5);
     }
   else
     {
-      drawGridV(5, 14.5*12);
+      drawGridV(5, 15*12);
       splitter->setOrientation(Qt::Vertical);
     }
   for(int i = 0; i < tree->topLevelItemCount(); i++)
@@ -421,4 +422,14 @@ void Window::ZmienKolory()
       kolory = pick;
       UpdateColors();
     }
+}
+
+void Window::PrzejrzyjDropboxa()
+{
+  setCursor(Qt::WaitCursor);
+  dropboxDialog d(dropbox, "/kursy/", this);
+  d.show();
+  int ret = d.exec();
+  if(ret)
+    WczytywanieEduAKZ(d.listaK);
 }

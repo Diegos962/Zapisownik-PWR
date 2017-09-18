@@ -229,7 +229,8 @@ void LoginWindow::AKZ_download()
   int stan1 = lista_kursow.size();
   filtrujAKZ(tmp);
   labelHead->setText("ZAKOŃCZONO POBIERANIE\nPOBRANO " + QString::number(lista_kursow.size() - stan1) + " KURSÓW");
-  labelHead->setStyleSheet("QLabel {color: yellow; font-size: 20px;}");
+  palette().color(QPalette::WindowText).name();
+  labelHead->setStyleSheet(QString("QLabel {color: %1; font-size: 18px;}").arg(palette().color(QPalette::WindowText).name()));
   labelHead->setVisible(true);
   boxAKZ->setVisible(false);
   jezyki->setVisible(false);

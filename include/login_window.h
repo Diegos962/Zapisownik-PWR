@@ -22,15 +22,17 @@
 #include <QThread>
 #include <QSpinBox>
 #include <QEventLoop>
+#include <QMessageBox>
 #include "poboczneTerminy.h"
 #include "kursy_grupy_bloki.h"
-
+#include "dropbox.h"
+#include "dropboxDialog.h"
 
 class LoginWindow: public QDialog
 {
   Q_OBJECT
  public:
-  explicit LoginWindow(QWidget *parent = 0);
+  explicit LoginWindow(Dropbox *d, QWidget *parent = 0);
   /************EDUKACJA*********/
  private:
   QNetworkAccessManager *mgr;
@@ -45,6 +47,11 @@ class LoginWindow: public QDialog
   QList<KursyGrupyBloki> lista_zajec;
   QString clEduWebSESSIONTOKEN;
   QString clEduWebTOKEN;
+  QString FolderDane;
+  QString FolderZapisy;
+  QString FolderKryterium;
+  QString FolderPlanStudiow;
+  QString FolderSemestr;
 
   QString get_token(const QString &token,
 		    const QString &end_token, QNetworkReply *reply);
@@ -76,6 +83,9 @@ class LoginWindow: public QDialog
 		      QList<QString> &list);
   void rozdajBlokiGrupyKursy(const bool &nr);
   void parsujTermin(QTextStream &stream, Kurs &tmp);
+  bool pytanieOWyborZrodla();
+  void zakonczonoPobieranie();
+  
   private slots:
     void AcceptLogin();
     void SelectMajor();
@@ -87,6 +97,11 @@ class LoginWindow: public QDialog
     void SelectSemestr_ZWEKTORA();
  public:
     void GUI_login();
+    QString folderDane() const;
+    QString folderZapisy() const;
+    QString folderKryterium() const;
+    QString folderPlanStudiow() const;
+    QString folderSemestr() const;
     /*****************************/
  
     /************AKZ**************/
@@ -113,6 +128,8 @@ class LoginWindow: public QDialog
       int PolwroStrony(QTextStream &stream);
       void PolwroProwadzacy(QTextStream &stream);
       void PolwroPobieranie();
+      void PolwroDropbox();
+      void PolwroPolwro();
       QSpinBox *offset;
      
       private slots:
@@ -126,6 +143,7 @@ class LoginWindow: public QDialog
 	/************WSPOLNE***********/
 	QList<Kurs> lista_kursow;
  private:
+	Dropbox *db;
 	QLabel *labelHead;
 	QGridLayout *formGridLayout;
 	QProgressBar *progressBar;

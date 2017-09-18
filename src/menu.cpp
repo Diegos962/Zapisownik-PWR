@@ -31,6 +31,7 @@ QMenu *Window::ustawMenuPlik()
   QAction *KursyZPliku = new QAction("Z pliku", this);
   QAction *KursyZEdukacji = new QAction("Z edukacji", this);
   QAction *KursyZAKZ = new QAction("Z AKZ", this);
+  QAction *KursyZDropboxa = new QAction("Z zewn. serwera", this);
   QMenu *bazaProawdzacych = new QMenu("Baza prowadzących...", this);
   QAction *zapiszProwadzacych = new QAction("Zapisz do pliku", this);
   QMenu *wczytajProwadzacych = new QMenu("Wczytaj...", this);
@@ -46,6 +47,7 @@ QMenu *Window::ustawMenuPlik()
   wczytajKursy->addAction(KursyZPliku);
   wczytajKursy->addAction(KursyZEdukacji);
   wczytajKursy->addAction(KursyZAKZ);
+  wczytajKursy->addAction(KursyZDropboxa);
   bazaProawdzacych->addMenu(wczytajProwadzacych);
   bazaProawdzacych->addAction(zapiszProwadzacych);
   wczytajProwadzacych->addAction(ProwadzacyZPliku);
@@ -59,6 +61,7 @@ QMenu *Window::ustawMenuPlik()
   connect(KursyZPliku, &QAction::triggered, this, &Window::wczytajKursyZPliku);
   connect(KursyZEdukacji, &QAction::triggered, this, &Window::wczytajKursyZEdukacji);
   connect(KursyZAKZ, &QAction::triggered, this, &Window::wczytajKursyZAKZ);
+  connect(KursyZDropboxa, &QAction::triggered, this, &Window::PrzejrzyjDropboxa);
   connect(ProwadzacyZPliku, &QAction::triggered, this, &Window::wczytajProwadzacychZPliku);
   connect(ProwadzacyZPolwro, &QAction::triggered, this, &Window::wczytajProwadzacychZPolwro);
   connect(wczytajWybranyPlan, &QAction::triggered, this, &Window::wczytajPlan);

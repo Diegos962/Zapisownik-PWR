@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include "../include/main_window.h"
+
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
@@ -13,9 +14,9 @@ int main(int argc, char *argv[])
   else
     width = 1250;
   if(height < 800)
-    height = 700;
+    height = 750;
   else
-    height = 800;
+    height = 830;
   
   Window main;
   main.show();

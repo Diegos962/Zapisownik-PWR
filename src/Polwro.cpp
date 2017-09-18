@@ -2,8 +2,56 @@
 
 void LoginWindow::PolwroGUI()
 {
+  QList<QDropboxFileInfo> terminyDB = db->filterData("/polwro/");
+  parentWidget()->setCursor(Qt::ArrowCursor);
+  if(terminyDB.size() > 0)
+    {
+      QDropboxFileInfo info = terminyDB.at(terminyDB.size()-1);
+      QString nazwaPliku = info.root() + info.path();
+      QString czasNowego = info.modified().toTimeSpec(Qt::LocalTime).toString("dd.MM.yyyy hh.mm");
+      QString pytanie = (QString("Na serwerze znajduje się plik z dnia %2.\nMożesz go pobrać i odciążyć serwery!"))
+        .arg(czasNowego);
+      
+      buttons->clear();      
+      buttons->disconnect();
+      buttons->addButton(QDialogButtonBox::No)->setText("Pobierz z polwro");
+      buttons->addButton(QDialogButtonBox::Yes)->setText("Pobierz z zew. serwera");
+      buttons->setEnabled(true);
+      buttons->setVisible(true);
+      labelHead->setText(pytanie);
+      connect(buttons, &QDialogButtonBox::rejected,
+	      this, &LoginWindow::PolwroPolwro);
+      connect(buttons, &QDialogButtonBox::accepted, [=]
+	      {
+		buttons->setEnabled(false);
+		QByteArray data = db->downloadFile(nazwaPliku);
+		if(data.size() == 0)
+		  {
+		    buttons->setEnabled(true);
+		    return;
+		  }
+		QTextStream stream(data);
+		while(!stream.atEnd())
+		  {
+		    Prowadzacy aaa;
+		    aaa.setNazwa(stream.readLine());
+		    aaa.setOcena(stream.readLine());
+		    aaa.setIloscOpinii(stream.readLine());
+		    aaa.setLink(stream.readLine());
+		    lista_prowadzacych.push_back(aaa);
+		  }
+		QDialog::done(2);
+		return;
+	      });
+    }
+  else
+    PolwroPolwro();
+}
+
+void LoginWindow::PolwroPolwro()
+{
   labelHead->setText("Logowanie do polwro.pl");
-  labelHead->setStyleSheet("QLabel {color: yellow; font-size: 18px;}");
+  labelHead->setStyleSheet(QString("QLabel {color: %1; font-size: 18px;}").arg(palette().color(QPalette::WindowText).name()));
   labelHead->setVisible(true);
   buttons->setEnabled(true);
   buttons->setVisible(true);
@@ -19,7 +67,10 @@ void LoginWindow::PolwroGUI()
   offset->setSingleStep(20);
   offset->setSuffix(" ms");
 
+  buttons->clear();      
   buttons->disconnect();
+  buttons->addButton(QDialogButtonBox::No)->setText("Anuluj");
+  buttons->addButton(QDialogButtonBox::Yes)->setText("Zaloguj");
   connect(buttons, &QDialogButtonBox::rejected,
   	  this, &QDialog::reject);
   connect(buttons, &QDialogButtonBox::accepted,

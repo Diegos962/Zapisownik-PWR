@@ -32,6 +32,8 @@
 #include "poboczneTerminy.h"
 #include "poboczneDopasowywanie.h"
 #include "filtry.h"
+#include "dropbox.h"
+#include "dropboxDialog.h"
 
 class CheckBox;
 class Window: public QMainWindow
@@ -43,6 +45,12 @@ class Window: public QMainWindow
   QSplitter *splitter;
   QGridLayout *siatka;
   QTreeWidget *tree;
+  /*********DROPBOX************/
+  Dropbox *dropbox;
+  void wyslijNaDropboxa(const QList<Kurs> &lista, const QString &nazwaPliku);
+  void wyslijPolwroNaDropboxa(const QList<Prowadzacy> &lista);
+  void PrzejrzyjDropboxa();
+  /****************************/
   /***********MENU*************/
   QMenuBar *menu;
   void ustawMenu();
@@ -74,7 +82,7 @@ class Window: public QMainWindow
   bool SprawdzPotok(const QString &potok, const QString &kodKursu, QTreeWidgetItem *wybrany) const;
   bool porownajGodziny(QString g1, QString g2);
   FiltryDialog *filtrowanie;
-  bool tablicaCzasu[2][5][174];
+  bool tablicaCzasu[2][5][180];
   /**************************/
 
   /*******DRZEWO***********/
@@ -89,7 +97,7 @@ class Window: public QMainWindow
   void wczytajWybraneKursy(const QList<QString> &stareKody);
   /**************************/
 
-  void WczytywanieEduAKZ(QList<Kurs> lista);
+  void WczytywanieEduAKZ(const QList<Kurs> &lista);
   void przypisz_prowadzacego(QList<Kurs> &lista);
 
   /***********WIDOK*********/

@@ -3,6 +3,7 @@ QT += core
   QT += widgets
   QT += network
   QT += concurrent
+  QT += xml
   
   TARGET = zapisownik
   CONFIG -= app_bundle
@@ -28,7 +29,9 @@ QT += core
             src/wyborKursu.cpp \
             src/zapiszWczytaj.cpp \
             src/tree.cpp \
-            src/drawGridCourse.cpp
+            src/drawGridCourse.cpp \
+            src/dropbox.cpp \
+            src/dropboxDialog.cpp
             
   HEADERS = include/login_window.h \
             include/kursy_grupy_bloki.h \
@@ -43,6 +46,11 @@ QT += core
             include/color_double_button.h \
             include/wybrane_kolory.h \
             include/poboczneDopasowywanie.h \
+            include/dropbox.h \
+            include/dropboxDialog.h
 
   OBJECTS_DIR = obj/
   MOC_DIR = moc/
+  include("qtdropbox/libqtdropbox.pri")
+  QMAKE_LFLAGS += -Wl,-rpath,"'$$ORIGIN'"
+  LIBS += -L$$PWD/qtdropbox/lib -lQtDropbox -Wl,-R$$PWD/qtdropbox/lib
