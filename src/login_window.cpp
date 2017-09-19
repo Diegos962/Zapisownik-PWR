@@ -306,7 +306,7 @@ void LoginWindow::SelectZapisy()
 	fDane = fDane.left(pos+3);
       fDane.insert(fDane.indexOf("PO"), "/");
       folderPliku = "/kursy/" + fDane + "/" + folderZapisy().replace('/', '-') + "/";
-      dropboxDialog d(db, folderPliku);
+      dropboxDialog d(db, folderPliku, this);
       d.show();
       int ret = d.exec();
       if(ret)

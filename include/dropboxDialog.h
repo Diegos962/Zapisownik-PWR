@@ -15,7 +15,7 @@ class dropboxDialog: public QDialog
 {
   Q_OBJECT
  public:
-  dropboxDialog(Dropbox *db, const QString &path, QWidget *parent = 0);
+  dropboxDialog(Dropbox *db, const QString &path, QWidget *parent);
   QList<Kurs> listaK;
  private:
   QTreeWidget *tree;
