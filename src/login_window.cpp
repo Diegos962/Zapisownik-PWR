@@ -558,6 +558,8 @@ bool LoginWindow::pytanieOWyborZrodla()
   fDane.insert(fDane.indexOf("PO"), "/");
   folderPliku = "/kursy/" + fDane + "/" + folderZapisy().replace('/', '-') + "/" + folderKryterium().replace('/', '-')
     + "/" + folderPlanStudiow().replace('/', '-') + "/" + folderSemestr().replace('/', '-') + "/";
+  if(znajdzNumery(folderPliku, pos))
+    folderPliku.remove(pos, 6);
   QList<QDropboxFileInfo> terminyDB = db->filterData(folderPliku);
   if(terminyDB.size() > 0)
     {

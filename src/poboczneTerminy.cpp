@@ -140,3 +140,17 @@ bool sprawdzTerminy(const QString &text)
     return false;
   return true;
 }
+
+bool znajdzNumery(const QString &line, int &pos1)
+{
+  for(int i = 0; i < line.size()-5; i++)
+    {
+      if(line[i].digitValue() != -1 && line[i+1].digitValue() != -1 && line[i+2].digitValue() != -1
+	 && line[i+3].digitValue() != -1 && line[i+4].digitValue() != -1 && line[i+5].digitValue() != -1)
+	{
+	  pos1 = i;
+	  return true;
+	}
+    }
+  return false;
+}

@@ -356,6 +356,8 @@ void Window::wczytajKursyZEdukacji()
       fDane.insert(fDane.indexOf("PO"), "/");
       folderPliku = "/kursy/" + fDane + "/" + l.folderZapisy().replace('/', '-') + "/" + l.folderKryterium().replace('/', '-')
 	+ "/" + l.folderPlanStudiow().replace('/', '-') + "/" + l.folderSemestr().replace('/', '-') + "/";
+      if(znajdzNumery(folderPliku, pos))
+	folderPliku.remove(pos, 6);
       nazwaPliku = QString::number(l.lista_kursow.size()) + "|" + QString::number(QDateTime::currentMSecsSinceEpoch()/1000) + ".txt";
       wyslijNaDropboxa(l.lista_kursow, folderPliku+nazwaPliku);
     }

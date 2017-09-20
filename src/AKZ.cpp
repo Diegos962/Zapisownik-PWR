@@ -49,7 +49,7 @@ void LoginWindow::GUI_AKZ()
 	  [=] {if (wf->isChecked()) boxAKZ->setTabEnabled(2, true);
       else {boxAKZ->setTabEnabled(2, false) ;boxAKZ->setCurrentIndex(0);}});
   connect(back, &QPushButton::clicked, this,
-	  [=] {clear_window(); GUI_select_zapisy();});
+	  [=] {clear_window(); labelHead->setVisible(true); GUI_select_zapisy();});
   connect(download, &QPushButton::clicked,
 	  this, &LoginWindow::AKZ_download);
 }
