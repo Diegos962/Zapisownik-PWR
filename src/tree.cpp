@@ -184,6 +184,7 @@ void Window::update_tree()
 	  if(!p)
 	    {
 	      ilosc--;
+	      (static_cast<CheckBox *> (tree->itemWidget(child, 0)))->setChecked(false);
 	      parent->removeChild(child);
 	      if(tree->topLevelItem(i)->childCount() == 0)
 	  	{
