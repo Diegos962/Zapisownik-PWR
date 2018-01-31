@@ -16,13 +16,14 @@ Window::Window(QWidget *parent): QMainWindow(parent)
 	k = false;
   
   tree = new QTreeWidget(this);
-  tree->setColumnCount(8);
-  tree->setHeaderLabels(QStringList() << "Zaznacz" << "Kod grupy" << "Prowadzący" << "Ocena" << "Ilość opinii" << "Termin" << "Miejsca" << "Potok");
+  tree->setColumnCount(9);
+  tree->setHeaderLabels(QStringList() << "Zaznacz" << "Kod grupy" << "Prowadzący" << "Ocena" << "Ilość opinii" << "Termin" << "Miejsca" << "Potok" << "Lokalizacja");
   tree->setSelectionMode(QAbstractItemView::NoSelection);
   tree->setSortingEnabled(true);
   tree->setRootIsDecorated(false);
   tree->setColumnWidth(2, 250);
   tree->setColumnWidth(5, 150);
+  tree->setAlternatingRowColors(true);
   connect(tree, &QTreeWidget::itemClicked, this, &Window::TreeHeaderClicked);
   
   siatka = new QGridLayout();
@@ -235,6 +236,25 @@ void Window::filtry()
 		    break;
 		  }
 	      if(wylacz)
+		{
+		  child->setHidden(true);
+		  // continue;
+		}
+	      else
+		child->setHidden(false);
+	    }
+	  if(filtrowanie->pokazTerminy().size() != 0)
+	    {
+	      bool wylacz = false;
+	      for(auto a: filtrowanie->pokazTerminy())
+		{		  
+		  if(porownajGodziny2(child->kodTermin(), a))
+		    {
+		      wylacz = true;
+		      break;
+		    }
+		}
+	      if(!wylacz)
 		{
 		  child->setHidden(true);
 		  continue;

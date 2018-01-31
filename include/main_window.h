@@ -66,7 +66,8 @@ class Window: public QMainWindow
   void drawGridV(int rows, int columnms);
   void drawGridH(int rows, int columnms);
   void drawCourse(int row, int tydzien, int column, int length, QString grupa,
-		  QString text, QColor color, QColor fcolor, QString kKursu, QString czas);
+		  QString text, QColor color, QColor fcolor, QString kKursu,
+		  QString czas, QString prowadzacy);
   void raiseHorizontalLines();
   void ustawDzienNaSiatce(QString dzien, int row,
 			  int col, int rowSpan, int colSpan);
@@ -82,6 +83,7 @@ class Window: public QMainWindow
   void filtry();
   bool SprawdzPotok(const QString &potok, const QString &kodKursu, QTreeWidgetItem *wybrany) const;
   bool porownajGodziny(QString g1, QString g2);
+  bool porownajGodziny2(QString g1, QString g2);
   FiltryDialog *filtrowanie;
   bool tablicaCzasu[2][5][180];
   /**************************/

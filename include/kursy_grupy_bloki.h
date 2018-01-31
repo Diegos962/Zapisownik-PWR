@@ -58,6 +58,7 @@ class Kurs
   QString Stacjonarne;
   QString Stopien;
   QString Uwagi;
+  QString Lokalizacja;
   QList<Prowadzacy> Dane;
   QList<QList<Prowadzacy>> Lista;
  public:
@@ -73,6 +74,7 @@ class Kurs
   void setStacjonarne(const QString &k);
   void setStopien(const QString &k);
   void setUwagi(const QString &k);
+  void setLokalizacja(const QString &k);
   QString kodKursu() const;
   QString kodGrupy() const;
   QString nazwa() const;
@@ -84,6 +86,7 @@ class Kurs
   QString stacjonarne() const;
   QString stopien() const;
   QString uwagi() const;
+  QString lokalizacja() const;
   QList<Prowadzacy> &dane();
   QList<QList<Prowadzacy>> &lista();
 };

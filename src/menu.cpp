@@ -134,6 +134,7 @@ QMenu *Window::ustawMenuWidok()
   QAction *pokazTermin = new QAction("Termin", this);
   QAction *pokazMiejsca = new QAction("Ilość wolnych miejsc", this);
   QAction *pokazPotok = new QAction("Potok", this);
+  QAction *pokazLokalizacje = new QAction("Lokalizacja", this);
   pokazKodGrupy->setCheckable(true);
   pokazProwadzacego->setCheckable(true);
   pokazOceneProwadzacego->setCheckable(true);
@@ -141,6 +142,7 @@ QMenu *Window::ustawMenuWidok()
   pokazTermin->setCheckable(true);
   pokazMiejsca->setCheckable(true);
   pokazPotok->setCheckable(true);
+  pokazLokalizacje->setCheckable(true);
   pokazKodGrupy->setChecked(true);
   pokazProwadzacego->setChecked(true);
   pokazOceneProwadzacego->setChecked(true);
@@ -148,6 +150,7 @@ QMenu *Window::ustawMenuWidok()
   pokazTermin->setChecked(true);
   pokazMiejsca->setChecked(true);
   pokazPotok->setChecked(true);
+  pokazLokalizacje->setChecked(true);
   QObject::connect(ustawFiltry, &QAction::triggered, this , [=]
 		   {
 		     filtrowanie->show();
@@ -162,6 +165,7 @@ QMenu *Window::ustawMenuWidok()
   QObject::connect(pokazTermin, &QAction::triggered, this, [=] {tree->setColumnHidden(5, !pokazTermin->isChecked());});
   QObject::connect(pokazMiejsca, &QAction::triggered, this, [=] {tree->setColumnHidden(6, !pokazMiejsca->isChecked());});
   QObject::connect(pokazPotok, &QAction::triggered, this, [=] {tree->setColumnHidden(7, !pokazPotok->isChecked());});
+  QObject::connect(pokazLokalizacje, &QAction::triggered, this, [=] {tree->setColumnHidden(8, !pokazLokalizacje->isChecked());});
   QObject::connect(ZmienWidok, &QAction::triggered, this, &Window::PrzelaczWidok);
 
   menuWidok->addAction(ustawFiltry);
@@ -174,6 +178,7 @@ QMenu *Window::ustawMenuWidok()
   pokazInfo->addAction(pokazTermin);
   pokazInfo->addAction(pokazMiejsca);
   pokazInfo->addAction(pokazPotok);
+  pokazInfo->addAction(pokazLokalizacje);
   menuWidok->addAction(ZmienWidok);
 
   return menuWidok;

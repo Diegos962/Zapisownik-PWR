@@ -29,6 +29,20 @@ bool Window::porownajGodziny(QString g1, QString g2) //g2 - filtr
     return false;
 }
 
+bool Window::porownajGodziny2(QString g1, QString g2) //g2 - filtr
+{
+  if(g1[1].digitValue() != g2[1].digitValue())
+    return false;
+  int P1 = g1[3].digitValue()*600 + g1[4].digitValue()*60 + g1[5].digitValue()*10 + g1[6].digitValue();
+  int K1 = g1[7].digitValue()*600 + g1[8].digitValue()*60 + g1[9].digitValue()*10 + g1[10].digitValue();
+  int P2 = g2[3].digitValue()*600 + g2[4].digitValue()*60 + g2[5].digitValue()*10 + g2[6].digitValue();
+  int K2 = g2[7].digitValue()*600 + g2[8].digitValue()*60 + g2[9].digitValue()*10 + g2[10].digitValue();
+  if( (P1 > P2 && P1 < K2) && (K1 > P2 && K1 < K2))
+    return true;
+  else
+    return false;
+}
+
 void Window::odznaczWTablicy(int start, int len, int dzien, bool typ, int tydzien)
 {
   if(tydzien == 2)
@@ -168,8 +182,9 @@ void Window::Zaznaczono()
 		tydzien = 2;
 	      else
 		tydzien = 5;
+	      QLabel *prowadzacy =  static_cast<QLabel *>(tree->itemWidget(child, 2));
 	      drawCourse(str[1].digitValue(), tydzien, godziny.first, godziny.second, child->text(1),
-			 text.mid(0, pos), parent->background(0).color(), parent->foreground(0).color(), parent->text(9), czas);
+			 text.mid(0, pos), parent->background(0).color(), parent->foreground(0).color(), parent->text(9), czas, prowadzacy->text());
 	    }
 	}
     }

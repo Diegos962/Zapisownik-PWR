@@ -77,6 +77,7 @@ void Window::add_child(TreeWidgetItem *treeItem, Kurs a)
   child->setText(5, DecodeTermin(a.termin()));
   child->setText(6, a.miejsca());
   child->setText(7, a.potok());
+  child->setText(8, a.lokalizacja());
   connect(checkBox, &CheckBox::stateChanged, this, &Window::Zaznaczono);
   
 }

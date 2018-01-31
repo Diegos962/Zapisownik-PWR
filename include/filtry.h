@@ -38,6 +38,7 @@ class FiltryDialog: public QDialog
   bool ukryjOcena() const;
   float ukryjOcenaWartosc() const;
   QList<QString> ukryjTerminy() const;
+  QList<QString> pokazTerminy() const;
 
  private:
   QCheckBox *niedostepne;
@@ -55,13 +56,25 @@ class FiltryDialog: public QDialog
   MySpinBox *godzK;
   MySpinBox *minK;
   QPushButton *dodaj;
+  
+  QComboBox *dniTygodniaP;
+  MySpinBox *godzPP;
+  MySpinBox *minPP;
+  MySpinBox *godzKP;
+  MySpinBox *minKP;
+  QPushButton *dodajP;
+  
   QDialogButtonBox *buttons;
   QVBoxLayout *layout;
   QList<QPair<QLabel *, QPushButton *>> obj;
+  QList<QPair<QLabel *, QPushButton *>> objP;
   QList<QString> wybraneTerminy;
+  QList<QString> wybraneTerminyP;
   private slots:
     void usunClicked();
+    void usunClickedP();
     void dodajClicked();
+    void dodajClickedP();
 };
 
 

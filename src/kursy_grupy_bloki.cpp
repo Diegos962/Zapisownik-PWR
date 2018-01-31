@@ -51,6 +51,7 @@ Kurs::Kurs()
   Stacjonarne = "";
   Stopien = "";
   Uwagi = "";
+  Lokalizacja = "";
 }
 
 void Kurs::setKodKursu(const QString &k){Kod_kursu = k;}
@@ -64,6 +65,7 @@ void Kurs::setPotok(const QString &k){Potok = k;}
 void Kurs::setStacjonarne(const QString &k){Stacjonarne = k;}
 void Kurs::setStopien(const QString &k){Stopien = k;}
 void Kurs::setUwagi(const QString &k){Uwagi = k;}
+void Kurs::setLokalizacja(const QString &k){Lokalizacja = k;}
 
 QString Kurs::kodKursu() const {return Kod_kursu;}
 QString Kurs::kodGrupy() const {return Kod_grupy;}
@@ -76,5 +78,6 @@ QString Kurs::potok() const {return Potok;}
 QString Kurs::stacjonarne() const {return Stacjonarne;}
 QString Kurs::stopien() const {return Stopien;}
 QString Kurs::uwagi() const {return Uwagi;}
+QString Kurs::lokalizacja() const {return Lokalizacja;}
 QList<Prowadzacy>& Kurs:: dane(){return Dane;}
 QList<QList<Prowadzacy>>& Kurs::lista(){return Lista;}

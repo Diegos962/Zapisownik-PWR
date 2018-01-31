@@ -113,7 +113,8 @@ void Window::drawGridH(int rows, int columns)
 }
 
 void Window::drawCourse(int row, int tydzien, int column, int length, QString grupa,
-			QString text, QColor color, QColor fcolor, QString kKursu, QString czas)
+			QString text, QColor color, QColor fcolor, QString kKursu,
+			QString czas, QString prowadzacy)
 {
   BlokWidget *blok = new BlokWidget(this);
   blok->setKodGrupy(grupa);
@@ -125,6 +126,7 @@ void Window::drawCourse(int row, int tydzien, int column, int length, QString gr
   else if (tydzien == 2)
     czas += "     TP";
   czas += "\n" + text;
+  czas += "\n" + prowadzacy;
   blok->setStyleSheet(QString("background-color: %1;\n"
 			      "border: 1px solid %1;\n"
 			      "opacity: 0.85;\n"

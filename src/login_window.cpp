@@ -1,5 +1,7 @@
 #include "../include/login_window.h"
 
+#include <QDebug>
+
 LoginWindow::LoginWindow(Dropbox *d, QWidget *parent): QDialog(parent)
 {
   setWindowTitle("Logowanie");
@@ -904,6 +906,8 @@ void LoginWindow::parsujTermin(QTextStream &stream, Kurs &tmp)
     {
       QString jeden;
       terminy(opk, jeden);
+      QString miejscowa = opk.right(opk.size()-opk.indexOf(", ") - 2);
+      tmp.setLokalizacja(miejscowa);
       if(!sprawdzTerminy(jeden))
 	jeden = "";
       else

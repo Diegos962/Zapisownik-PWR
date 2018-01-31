@@ -255,7 +255,7 @@ void Window::wczytajKursyZPliku()
 	      in.readLine();
 	      lines++;
 	    }
-	  if(lines%8 != 0)
+	  if(lines%9 != 0)
 	    {
 	      QMessageBox msg;
 	      msg.critical(this, "Błąd", QString("Błąd odczytu: pliku:\n%1").arg(file.fileName()));
@@ -278,6 +278,7 @@ void Window::wczytajKursyZPliku()
 		  tmp.setTermin(in.readLine());
 		  tmp.setMiejsca(in.readLine());
 		  tmp.setPotok(in.readLine());
+		  tmp.setLokalizacja(in.readLine());
 		  for(auto &b: przedmioty)
 		    for(auto &a: b)
 		      if(a.kodGrupy() == tmp.kodGrupy())
@@ -330,6 +331,8 @@ void Window::wyslijNaDropboxa(const QList<Kurs> &lista, const QString &nazwaPlik
       data.append(a.miejsca());
       data.append('\n');
       data.append(a.potok());
+      data.append('\n');
+      data.append(a.lokalizacja());
       data.append('\n');
     }
   dropbox->uploadData(nazwaPliku, data);
@@ -434,6 +437,7 @@ void Window::ZapiszKursy()
 	out << x.termin() << '\n';
 	out << x.miejsca() << '\n';
 	out << x.potok() << '\n';
+	out << x.lokalizacja() << '\n';
       }
 }
 
