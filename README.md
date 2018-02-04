@@ -9,7 +9,7 @@ Program do układania planu dla studentów Politechniki Wrocławskiej przez serw
 * Qt 5.5+ (zalecana najnowsza wersja 5.x) wraz z qmake (do pobrania na Windowsie z http://www.qt.io/download-open-source/ lub z repozytoriów na linuksie)
 * OpenSSL (do pobrania na Windowsie z http://slproweb.com/products/Win32OpenSSL.html lub z repozytoriów na linuksie)
 * libpng16 (tylko na linuksie - dostępna w repozytoriach)
-* QtDropbox(https://github.com/lycis/QtDropbox)
+* ~~QtDropbox(https://github.com/lycis/QtDropbox)~~
 
 #### Pobranie paczki
 
@@ -19,7 +19,7 @@ $ git clone --recursive https://github.com/Diegos962/Zapisownik.git
 
 #### Kompilacja
 
-Najpierw należy skompilować bibliotekę QtDropbox i plik wyjściowy (.dll lub .so) umieścić w katalogu głównym. Kompilacja biblioteki jak i programu przebiega w ten sam sposób.
+~~Najpierw należy skompilować bibliotekę QtDropbox i plik wyjściowy (.dll lub .so) umieścić w katalogu głównym. Kompilacja biblioteki jak i programu przebiega w ten sam sposób.~~
 
 W celu kompilacji wykonaj następujące dwa polecenia w głównym katalogu:
 
@@ -41,6 +41,8 @@ https://github.com/Diegos962/Zapisownik/releases
 
 Uwaga! Na linuksie konieczne może być doinstalowanie wspomnianej biblioteki 'libpng16' lub innych drobiazgów, dostępnych w repozytoriach.
 
+Uwaga! Jeśli na windowsie występuje problem z połączeniem z edukacją, należy pobrać inne biblioteki SSL-a, np. stąd: https://indy.fulgan.com/SSL/ (na początek zalecam spróbować tę: openssl-0.9.8r), a następnie skopiować biblioteki libeay32.dll oraz ssleay32.dll do katalogu bin/ i nadpisać stare.
+
 ## Uwagi
 
 * W oknie logowania do serwisu polwro.pl dostępny jest "licznik" milisekund. Został on dodany, ponieważ serwis odrzuca zbyt częste połączenia i w celu uzyskania wszystkich danych, trzeba robić opóźnienia między przjeściami do kolejnych podstron. Program ma ustawione pewne opóźnienie, które dla autora wydało się optymalne, lecz w razie problemów należy je zwiększyć o jakieś 20-50 ms. Ilość prowadzących na dzień 07.09.2017 to 3005.
@@ -48,10 +50,11 @@ Uwaga! Na linuksie konieczne może być doinstalowanie wspomnianej biblioteki 'l
 * Losowanie planu w pewnych przypadkach może nie wybrać kursu dla wszystkich przedmiotów.
 * Zalecane jest pobieranie danych z zewnętrznego serwera, a nie z edukacji czy polwro, by owe strony nie zostały przeciążone. (Zwłaszcza polwro, ponieważ opinie o prowadzących się zbytnio nie zmieniają i wystarczy jedna aktualizacja na semestr).
 * Program nie zwalnia z myślenia i wybrany plan należy potwierdzić w systemie edukacja.cl.
-* Program po pobraniu danych z edukacji lub polwro wysyła je na zewnętrzny serwer. Korzystając z programu, zgadzasz się na to. Żadne dane osobiste nie są pobierane ani przechowywane, jedynie dane o kursach.
+* ~~Program po pobraniu danych z edukacji lub polwro wysyła je na zewnętrzny serwer. Korzystając z programu, zgadzasz się na to. Żadne dane osobiste nie są pobierane ani przechowywane, jedynie dane o kursach.~~
+* Dropbox wyłączył wsparcie dla starszego sposobu autoryzacji, a aktualna biblioteka nowego nie wspiera. Dlatego też zmuszony byłem całkowicie wyłączyć tę funkcję. Zalecam utworzenie jednego posta na grupie kierunku i wrzucanie pod nim aktualnych baz kursów. 
 
 ## Przykładowe użycie
 * Po uruchmieniu programu wchodzimy w Plik->Baza kursów->Wczytaj->Z edukacji.
-* Opcjonalnie możemy pobrać bazę prowadzących (Plik->Baza prowadzących->Wczytaj->Z Polwro).
+* Opcjonalnie możemy pobrać bazę prowadzących Plik->Baza prowadzących->Wczytaj->Z Polwro lub wczytać ją z pliku - jest to zalecany sposób, aby niepotrzebnie nie obciążać serwisu; dane o prowadzących i tak zmieniają się dwa razy do roku. Aktualny plik jest w archiwum z programem.
 * Teraz wybieramy kursy poprzez zaznaczenie kwadracika. Możemy ustawić filtry lub zmienić kolory na bardziej przyjazne. Jeśli nie mamy weny do układania, możemy wylosować cały plan lub tylko dolosować resztę kursów do już wybranych - zalecane użycie: po wybraniu kursów, zapisujemy je tymczasowo, dolosowywujemy i jeśli plan nam nie odpowiada, wczytujemy plan tymczasowy i ponownie dolosowywujemy.
-* Zapisujemy wybrany plan: Plik->Gotowe plany->Zapisz plan. Tak zapisany plan możemy wczytać do programu, jak i zawiera on kody wybranych grup, które możemy wykorzystać do procesu zapisywania.
+* Zapisujemy wybrany plan: Plik->Gotowe plany->Zapisz plan. Tak zapisany plan możemy wczytać do programu (po wczytaniu bazy kursów), jak i zawiera on kody wybranych grup, które możemy wykorzystać do procesu zapisywania (plik można normalnie otworzyć notatnikiem).
