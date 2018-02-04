@@ -126,6 +126,7 @@ void Window::drawCourse(int row, int tydzien, int column, int length, QString gr
   else if (tydzien == 2)
     czas += "     TP";
   czas += "\n" + text;
+  prowadzacy = usun_tagi(prowadzacy);
   czas += "\n" + prowadzacy;
   blok->setStyleSheet(QString("background-color: %1;\n"
 			      "border: 1px solid %1;\n"

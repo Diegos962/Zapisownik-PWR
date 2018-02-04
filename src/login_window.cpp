@@ -2,11 +2,11 @@
 
 #include <QDebug>
 
-LoginWindow::LoginWindow(Dropbox *d, QWidget *parent): QDialog(parent)
+LoginWindow::LoginWindow(QWidget *parent): QDialog(parent)
 {
   setWindowTitle("Logowanie");
   setModal(true);
-  db = d;
+  // db = d;
   progressBar = new QProgressBar(this);
   progressBarBot = new QProgressBar(this);
   formGridLayout = new QGridLayout(this);
@@ -298,26 +298,30 @@ void LoginWindow::SelectZapisy()
     }
   else if(page.indexOf("Parametry wyszukiwania", 0) == -1)
     {
-      change_head_error("Brak dostępu do zapisów");
-      QString fDane, folderPliku;
-      fDane = folderDane();
-      fDane.replace('/', '-');
-      fDane.insert(9, '/');
-      int pos = 0;
-      if( (pos = fDane.indexOf("DWU")) != -1)
-	fDane = fDane.left(pos+3);
-      fDane.insert(fDane.indexOf("PO"), "/");
-      folderPliku = "/kursy/" + fDane + "/" + folderZapisy().replace('/', '-') + "/";
-      dropboxDialog d(db, folderPliku, this);
-      d.show();
-      int ret = d.exec();
-      if(ret)
-	{
-	  lista_kursow = d.listaK;
-	  QDialog::done(2);
-	}
-      else
-	QDialog::reject();
+      // change_head_error("Brak dostępu do zapisów");
+      // QString fDane, folderPliku;
+      // fDane = folderDane();
+      // fDane.replace('/', '-');
+      // fDane.insert(9, '/');
+      // int pos = 0;
+      // if( (pos = fDane.indexOf("DWU")) != -1)
+      // 	fDane = fDane.left(pos+3);
+      // fDane.insert(fDane.indexOf("PO"), "/");
+      // folderPliku = "/kursy/" + fDane + "/" + folderZapisy().replace('/', '-') + "/";
+      // dropboxDialog d(db, folderPliku, this);
+      // d.show();
+      // int ret = d.exec();
+      // if(ret)
+      // {
+      // lista_kursow = d.listaK;
+      // QDialog::done(2);
+      // }
+      // else
+      QMessageBox msgBox;
+      msgBox.setText("Brak dostępu do zapisów.\nCzy to na pewno twoja pora zapisów?");
+      msgBox.exec();
+      
+      QDialog::reject();
       return;
     }
   else
@@ -550,58 +554,58 @@ void LoginWindow::SelectSemestr_ZWEKTORA()
 
 bool LoginWindow::pytanieOWyborZrodla()
 {
-  QString folderPliku, nazwaPliku, fDane;
-  fDane = folderDane();
-  fDane.replace('/', '-');
-  fDane.insert(9, '/');
-  int pos = 0;
-  if( (pos = fDane.indexOf("DWU")) != -1)
-    fDane = fDane.left(pos+3);
-  fDane.insert(fDane.indexOf("PO"), "/");
-  folderPliku = "/kursy/" + fDane + "/" + folderZapisy().replace('/', '-') + "/" + folderKryterium().replace('/', '-')
-    + "/" + folderPlanStudiow().replace('/', '-') + "/" + folderSemestr().replace('/', '-') + "/";
-  if(znajdzNumery(folderPliku, pos))
-    folderPliku.remove(pos, 6);
-  QList<QDropboxFileInfo> terminyDB = db->filterData(folderPliku);
-  if(terminyDB.size() > 0)
-    {
-      QDropboxFileInfo info = terminyDB.at(terminyDB.size()-1);
-      QString nazwaPliku = info.root() + info.path();
-      QString czasNowego = info.modified().toTimeSpec(Qt::LocalTime).toString("dd.MM.yyyy hh.mm");
-      QString pytanie = (QString("Na serwerze znajduje się plik z dnia %2.\nMożesz go pobrać i odciążyć serwery edukacji!"))
-        .arg(czasNowego);
-      QMessageBox msg;
-      msg.addButton(QMessageBox::No)->setText("Pobierz z edukacji");
-      msg.addButton(QMessageBox::Yes)->setText("Pobierz z zew. serwera");
-      msg.setText(pytanie);
-      msg.setWindowTitle("Wybór źródła");
-      int ret = msg.exec();
-      if(ret == QMessageBox::Yes)
-	{
-	  QByteArray data = db->downloadFile(nazwaPliku);
-	  if(data.size() == 0)
-	    return false;
+  // QString folderPliku, nazwaPliku, fDane;
+  // fDane = folderDane();
+  // fDane.replace('/', '-');
+  // fDane.insert(9, '/');
+  // int pos = 0;
+  // if( (pos = fDane.indexOf("DWU")) != -1)
+  //   fDane = fDane.left(pos+3);
+  // fDane.insert(fDane.indexOf("PO"), "/");
+  // folderPliku = "/kursy/" + fDane + "/" + folderZapisy().replace('/', '-') + "/" + folderKryterium().replace('/', '-')
+  //   + "/" + folderPlanStudiow().replace('/', '-') + "/" + folderSemestr().replace('/', '-') + "/";
+  // if(znajdzNumery(folderPliku, pos))
+  //   folderPliku.remove(pos, 6);
+  // QList<QDropboxFileInfo> terminyDB = db->filterData(folderPliku);
+  // if(terminyDB.size() > 0)
+    // {
+    //   QDropboxFileInfo info = terminyDB.at(terminyDB.size()-1);
+    //   QString nazwaPliku = info.root() + info.path();
+    //   QString czasNowego = info.modified().toTimeSpec(Qt::LocalTime).toString("dd.MM.yyyy hh.mm");
+    //   QString pytanie = (QString("Na serwerze znajduje się plik z dnia %2.\nMożesz go pobrać i odciążyć serwery edukacji!"))
+    //     .arg(czasNowego);
+    //   QMessageBox msg;
+    //   msg.addButton(QMessageBox::No)->setText("Pobierz z edukacji");
+    //   msg.addButton(QMessageBox::Yes)->setText("Pobierz z zew. serwera");
+    //   msg.setText(pytanie);
+    //   msg.setWindowTitle("Wybór źródła");
+    //   int ret = msg.exec();
+    //   if(ret == QMessageBox::Yes)
+    // 	{
+    // 	  QByteArray data = db->downloadFile(nazwaPliku);
+    // 	  if(data.size() == 0)
+    // 	    return false;
 
-	  progressBar->setRange(0, 100);
-	  progressBar->setValue(0);
-	  QTextStream stream(data);
-	  stream.setCodec("UTF-8");
-	  while(!stream.atEnd())
-	    {
-	      Kurs aaa;
-	      aaa.setKodKursu(stream.readLine());
-	      aaa.setKodGrupy(stream.readLine());
-	      aaa.setNazwa(stream.readLine());
-	      aaa.setForma(stream.readLine());
-	      aaa.setProwadzacy(stream.readLine().split("||", QString::SkipEmptyParts));
-	      aaa.setTermin(stream.readLine());
-	      aaa.setMiejsca(stream.readLine());
-	      aaa.setPotok(stream.readLine());
-	      lista_kursow.push_back(aaa);
-	    }
-	  return true;
-	}
-    }
+    // 	  progressBar->setRange(0, 100);
+    // 	  progressBar->setValue(0);
+    // 	  QTextStream stream(data);
+    // 	  stream.setCodec("UTF-8");
+    // 	  while(!stream.atEnd())
+    // 	    {
+    // 	      Kurs aaa;
+    // 	      aaa.setKodKursu(stream.readLine());
+    // 	      aaa.setKodGrupy(stream.readLine());
+    // 	      aaa.setNazwa(stream.readLine());
+    // 	      aaa.setForma(stream.readLine());
+    // 	      aaa.setProwadzacy(stream.readLine().split("||", QString::SkipEmptyParts));
+    // 	      aaa.setTermin(stream.readLine());
+    // 	      aaa.setMiejsca(stream.readLine());
+    // 	      aaa.setPotok(stream.readLine());
+    // 	      lista_kursow.push_back(aaa);
+    // 	    }
+    // 	  return true;
+    // 	}
+    // }
   return false;
 }
 

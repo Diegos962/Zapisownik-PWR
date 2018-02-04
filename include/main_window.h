@@ -33,8 +33,6 @@
 #include "poboczneTerminy.h"
 #include "poboczneDopasowywanie.h"
 #include "filtry.h"
-#include "dropbox.h"
-#include "dropboxDialog.h"
 
 class CheckBox;
 class Window: public QMainWindow
@@ -46,12 +44,6 @@ class Window: public QMainWindow
   QSplitter *splitter;
   QGridLayout *siatka;
   QTreeWidget *tree;
-  /*********DROPBOX************/
-  Dropbox *dropbox;
-  void wyslijNaDropboxa(const QList<Kurs> &lista, const QString &nazwaPliku);
-  void wyslijPolwroNaDropboxa(const QList<Prowadzacy> &lista);
-  void PrzejrzyjDropboxa();
-  /****************************/
   /***********MENU*************/
   QMenuBar *menu;
   void ustawMenu();

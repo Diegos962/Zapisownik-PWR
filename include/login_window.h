@@ -25,14 +25,12 @@
 #include <QMessageBox>
 #include "poboczneTerminy.h"
 #include "kursy_grupy_bloki.h"
-#include "dropbox.h"
-#include "dropboxDialog.h"
 
 class LoginWindow: public QDialog
 {
   Q_OBJECT
  public:
-  explicit LoginWindow(Dropbox *d, QWidget *parent = 0);
+  explicit LoginWindow(QWidget *parent = 0);
   /************EDUKACJA*********/
  private:
   QNetworkAccessManager *mgr;
@@ -128,7 +126,6 @@ class LoginWindow: public QDialog
       int PolwroStrony(QTextStream &stream);
       void PolwroProwadzacy(QTextStream &stream);
       void PolwroPobieranie();
-      void PolwroDropbox();
       void PolwroPolwro();
       QSpinBox *offset;
      
@@ -143,7 +140,6 @@ class LoginWindow: public QDialog
 	/************WSPOLNE***********/
 	QList<Kurs> lista_kursow;
  private:
-	Dropbox *db;
 	QLabel *labelHead;
 	QGridLayout *formGridLayout;
 	QProgressBar *progressBar;

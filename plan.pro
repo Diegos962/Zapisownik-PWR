@@ -30,8 +30,6 @@ QT += core
             src/zapiszWczytaj.cpp \
             src/tree.cpp \
             src/drawGridCourse.cpp \
-            src/dropbox.cpp \
-            src/dropboxDialog.cpp
             
   HEADERS = include/login_window.h \
             include/kursy_grupy_bloki.h \
@@ -46,10 +44,6 @@ QT += core
             include/color_double_button.h \
             include/wybrane_kolory.h \
             include/poboczneDopasowywanie.h \
-            include/dropbox.h \
-            include/dropboxDialog.h
 
   OBJECTS_DIR = obj/
   MOC_DIR = moc/
-  QMAKE_LFLAGS += -Wl,-rpath,"'$$ORIGIN'"
-  LIBS += -L$$PWD/ -lQtDropbox -Wl,-R$$PWD/

@@ -8,5 +8,6 @@ bool sprawdzTerminy(const QString &text);
 QString terminy(QString text, QString &ret);
 QString godziny(const QString &text, const int &start);
 bool znajdzNumery(const QString &line, int &pos1);
+QString usun_tagi(QString line);
 
 #endif

@@ -180,29 +180,10 @@ void Window::wczytajProwadzacychZPliku()
     }
 }
 
-void Window::wyslijPolwroNaDropboxa(const QList<Prowadzacy> &lista)
-{
-  QString nazwaPliku = "/polwro/" + QString::number(lista.size()) + "|"
-    +  QString::number(QDateTime::currentMSecsSinceEpoch()/1000) + ".txt";
-  QByteArray data;
-  for(auto a: lista)
-    {
-      data.append(a.nazwa());
-      data.append('\n');
-      data.append(a.ocena());
-      data.append('\n');
-      data.append(a.iloscOpinii());
-      data.append('\n');
-      data.append(a.link());
-      data.append('\n');
-    }
-  dropbox->uploadData(nazwaPliku, data);
-}
-
 void Window::wczytajProwadzacychZPolwro()
 {
   setCursor(Qt::WaitCursor);
-  LoginWindow l(dropbox, this);
+  LoginWindow l(this);
   l.PolwroGUI();
   l.show();
   int ret = l.exec();
@@ -225,10 +206,6 @@ void Window::wczytajProwadzacychZPolwro()
 
 	}
     }
-  if(ret == 1)
-    if(l.lista_prowadzacych.size() != 0)
-      wyslijPolwroNaDropboxa(l.lista_prowadzacych);
-
 }
 
 void Window::wczytajKursyZPliku()
@@ -306,41 +283,9 @@ void Window::wczytajKursyZPliku()
     }
 }
 
-void Window::wyslijNaDropboxa(const QList<Kurs> &lista, const QString &nazwaPliku)
-{
-  QByteArray data;
-  for(auto a: lista)
-    {
-      data.append(a.kodKursu());
-      data.append('\n');
-      data.append(a.kodGrupy());
-      data.append('\n');
-      data.append(a.nazwa());
-      data.append('\n');
-      data.append(a.forma());
-      data.append('\n');
-      QString prow;
-      if(a.prowadzacy().size() > 0)
-	prow = a.prowadzacy().at(0);
-      for(int i = 1; i < a.prowadzacy().size(); i++)
-	prow += "||" + a.prowadzacy().at(i);
-      data.append(prow);
-      data.append('\n');
-      data.append(a.termin());
-      data.append('\n');
-      data.append(a.miejsca());
-      data.append('\n');
-      data.append(a.potok());
-      data.append('\n');
-      data.append(a.lokalizacja());
-      data.append('\n');
-    }
-  dropbox->uploadData(nazwaPliku, data);
-}
-
 void Window::wczytajKursyZEdukacji()
 {
-  LoginWindow l(dropbox);
+  LoginWindow l;
   l.GUI_login();
   l.show();
   int ret = l.exec();
@@ -349,26 +294,26 @@ void Window::wczytajKursyZEdukacji()
   else if(ret)
     {
       WczytywanieEduAKZ(l.lista_kursow);
-      QString folderPliku, nazwaPliku, fDane;
-      fDane = l.folderDane();
-      fDane.replace('/', '-');
-      fDane.insert(9, '/');
-      int pos = 0;
-      if( (pos = fDane.indexOf("DWU")) != -1)
-	fDane = fDane.left(pos+3);
-      fDane.insert(fDane.indexOf("PO"), "/");
-      folderPliku = "/kursy/" + fDane + "/" + l.folderZapisy().replace('/', '-') + "/" + l.folderKryterium().replace('/', '-')
-	+ "/" + l.folderPlanStudiow().replace('/', '-') + "/" + l.folderSemestr().replace('/', '-') + "/";
-      if(znajdzNumery(folderPliku, pos))
-	folderPliku.remove(pos, 6);
-      nazwaPliku = QString::number(l.lista_kursow.size()) + "|" + QString::number(QDateTime::currentMSecsSinceEpoch()/1000) + ".txt";
-      wyslijNaDropboxa(l.lista_kursow, folderPliku+nazwaPliku);
+      // QString folderPliku, nazwaPliku, fDane;
+      // fDane = l.folderDane();
+      // fDane.replace('/', '-');
+      // fDane.insert(9, '/');
+      // int pos = 0;
+      // if( (pos = fDane.indexOf("DWU")) != -1)
+      // 	fDane = fDane.left(pos+3);
+      // fDane.insert(fDane.indexOf("PO"), "/");
+      // folderPliku = "/kursy/" + fDane + "/" + l.folderZapisy().replace('/', '-') + "/" + l.folderKryterium().replace('/', '-')
+      // 	+ "/" + l.folderPlanStudiow().replace('/', '-') + "/" + l.folderSemestr().replace('/', '-') + "/";
+      // if(znajdzNumery(folderPliku, pos))
+      // 	folderPliku.remove(pos, 6);
+      // nazwaPliku = QString::number(l.lista_kursow.size()) + "|" + QString::number(QDateTime::currentMSecsSinceEpoch()/1000) + ".txt";
+      // wyslijNaDropboxa(l.lista_kursow, folderPliku+nazwaPliku);
     }
 }
 
 void Window::wczytajKursyZAKZ()
 {
-  LoginWindow l(dropbox);
+  LoginWindow l;
   l.GUI_AKZ();
   l.show();
   int ret = l.exec();	    

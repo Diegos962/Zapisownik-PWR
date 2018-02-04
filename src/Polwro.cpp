@@ -2,50 +2,50 @@
 
 void LoginWindow::PolwroGUI()
 {
-  QList<QDropboxFileInfo> terminyDB = db->filterData("/polwro/");
+  // QList<QDropboxFileInfo> terminyDB = db->filterData("/polwro/");
   parentWidget()->setCursor(Qt::ArrowCursor);
-  if(terminyDB.size() > 0)
-    {
-      QDropboxFileInfo info = terminyDB.at(terminyDB.size()-1);
-      QString nazwaPliku = info.root() + info.path();
-      QString czasNowego = info.modified().toTimeSpec(Qt::LocalTime).toString("dd.MM.yyyy hh.mm");
-      QString pytanie = (QString("Na serwerze znajduje się plik z dnia %2.\nMożesz go pobrać i odciążyć serwery!"))
-        .arg(czasNowego);
+  // if(terminyDB.size() > 0)
+    // {
+  //     QDropboxFileInfo info = terminyDB.at(terminyDB.size()-1);
+  //     QString nazwaPliku = info.root() + info.path();
+  //     QString czasNowego = info.modified().toTimeSpec(Qt::LocalTime).toString("dd.MM.yyyy hh.mm");
+  //     QString pytanie = (QString("Na serwerze znajduje się plik z dnia %2.\nMożesz go pobrać i odciążyć serwery!"))
+  //       .arg(czasNowego);
       
-      buttons->clear();      
-      buttons->disconnect();
-      buttons->addButton(QDialogButtonBox::No)->setText("Pobierz z polwro");
-      buttons->addButton(QDialogButtonBox::Yes)->setText("Pobierz z zew. serwera");
-      buttons->setEnabled(true);
-      buttons->setVisible(true);
-      labelHead->setText(pytanie);
-      connect(buttons, &QDialogButtonBox::rejected,
-	      this, &LoginWindow::PolwroPolwro);
-      connect(buttons, &QDialogButtonBox::accepted, [=]
-	      {
-		buttons->setEnabled(false);
-		QByteArray data = db->downloadFile(nazwaPliku);
-		if(data.size() == 0)
-		  {
-		    buttons->setEnabled(true);
-		    return;
-		  }
-		QTextStream stream(data);
-		stream.setCodec("UTF-8");
-		while(!stream.atEnd())
-		  {
-		    Prowadzacy aaa;
-		    aaa.setNazwa(stream.readLine());
-		    aaa.setOcena(stream.readLine());
-		    aaa.setIloscOpinii(stream.readLine());
-		    aaa.setLink(stream.readLine());
-		    lista_prowadzacych.push_back(aaa);
-		  }
-		QDialog::done(2);
-		return;
-	      });
-    }
-  else
+  //     buttons->clear();      
+  //     buttons->disconnect();
+  //     buttons->addButton(QDialogButtonBox::No)->setText("Pobierz z polwro");
+  //     buttons->addButton(QDialogButtonBox::Yes)->setText("Pobierz z zew. serwera");
+  //     buttons->setEnabled(true);
+  //     buttons->setVisible(true);
+  //     labelHead->setText(pytanie);
+  //     connect(buttons, &QDialogButtonBox::rejected,
+  // 	      this, &LoginWindow::PolwroPolwro);
+  //     connect(buttons, &QDialogButtonBox::accepted, [=]
+  // 	      {
+  // 		buttons->setEnabled(false);
+  // 		QByteArray data = db->downloadFile(nazwaPliku);
+  // 		if(data.size() == 0)
+  // 		  {
+  // 		    buttons->setEnabled(true);
+  // 		    return;
+  // 		  }
+  // 		QTextStream stream(data);
+  // 		stream.setCodec("UTF-8");
+  // 		while(!stream.atEnd())
+  // 		  {
+  // 		    Prowadzacy aaa;
+  // 		    aaa.setNazwa(stream.readLine());
+  // 		    aaa.setOcena(stream.readLine());
+  // 		    aaa.setIloscOpinii(stream.readLine());
+  // 		    aaa.setLink(stream.readLine());
+  // 		    lista_prowadzacych.push_back(aaa);
+  // 		  }
+  // 		QDialog::done(2);
+  // 		return;
+  // 	      });
+  //   }
+  // else
     PolwroPolwro();
 }
 

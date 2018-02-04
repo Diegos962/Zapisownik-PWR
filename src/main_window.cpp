@@ -51,7 +51,7 @@ Window::Window(QWidget *parent): QMainWindow(parent)
   layout->addWidget(toolBar);  
   layout->addWidget(splitter);
   widget->setLayout(layout);
-  dropbox = new Dropbox("akzjias9zhjkio3", "evnrg7bxbavcvl6", this);
+  // dropbox = new Dropbox("akzjias9zhjkio3", "evnrg7bxbavcvl6", this);
 
   toolBar->setStyleSheet("QToolBar{spacing:15px;}");
   QAction *zapiszPlanTymczasowo = toolBar->addAction(QIcon("icons/save.png"), "Zapisz plan tymaczasowo");
@@ -466,12 +466,12 @@ void Window::ZmienKolory()
     }
 }
 
-void Window::PrzejrzyjDropboxa()
-{
-  setCursor(Qt::WaitCursor);
-  dropboxDialog d(dropbox, "/kursy/", this);
-  d.show();
-  int ret = d.exec();
-  if(ret)
-    WczytywanieEduAKZ(d.listaK);
-}
+// void Window::PrzejrzyjDropboxa()
+// {
+  // setCursor(Qt::WaitCursor);
+  // dropboxDialog d(dropbox, "/kursy/", this);
+  // d.show();
+  // int ret = d.exec();
+  // if(ret)
+  //   WczytywanieEduAKZ(d.listaK);
+// }

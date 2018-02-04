@@ -154,3 +154,16 @@ bool znajdzNumery(const QString &line, int &pos1)
     }
   return false;
 }
+
+QString usun_tagi(QString line)
+{
+  int pos1 = 0, pos2 = 0;
+  while(pos1 >= 0 && pos2 >= 0)
+    {
+      pos1 = line.indexOf("<");
+      pos2 = line.indexOf(">", pos1) + 1;
+      if(pos1 >=0 && pos2 >= 1)
+	line.remove(pos1, pos2-pos1);
+    }
+  return line;
+}
