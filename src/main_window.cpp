@@ -2,6 +2,7 @@
 
 Window::Window(QWidget *parent): QMainWindow(parent)
 {
+  Q_INIT_RESOURCE(resources);
   QWidget *widget = new QWidget;
   setCentralWidget(widget);
   setWindowTitle("Zapisownik PWR");
@@ -54,10 +55,10 @@ Window::Window(QWidget *parent): QMainWindow(parent)
   // dropbox = new Dropbox("akzjias9zhjkio3", "evnrg7bxbavcvl6", this);
 
   toolBar->setStyleSheet("QToolBar{spacing:15px;}");
-  QAction *zapiszPlanTymczasowo = toolBar->addAction(QIcon("icons/save.png"), "Zapisz plan tymaczasowo");
-  QAction *wczytajTymczasowyPlan = toolBar->addAction(QIcon("icons/load.png"), "Wczytaj tymczasowy plan");
-  QAction *dolosujKursy = toolBar->addAction(QIcon("icons/random1.png"), "Dolosuj kursy");
-  QAction *wylosujCalyPlan = toolBar->addAction(QIcon("icons/random2.png"), "Wylosuj cały plan");
+  QAction *zapiszPlanTymczasowo = toolBar->addAction(QIcon(":/icons/save.png"), "Zapisz plan tymaczasowo");
+  QAction *wczytajTymczasowyPlan = toolBar->addAction(QIcon(":/icons/load.png"), "Wczytaj tymczasowy plan");
+  QAction *dolosujKursy = toolBar->addAction(QIcon(":/icons/random1.png"), "Dolosuj kursy");
+  QAction *wylosujCalyPlan = toolBar->addAction(QIcon(":/icons/random2.png"), "Wylosuj cały plan");
   connect(zapiszPlanTymczasowo, &QAction::triggered, this, &Window::zapiszPlanTymczasowoAction);
   connect(wczytajTymczasowyPlan, &QAction::triggered, this, &Window::wczytajTymczasowyPlanAction);
   connect(dolosujKursy, &QAction::triggered, this, &Window::losujPlan);
