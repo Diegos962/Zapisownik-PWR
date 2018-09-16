@@ -48,3 +48,5 @@ QT += core
 
   OBJECTS_DIR = obj/
   MOC_DIR = moc/
+
+  RESOURCES += resources.qrc
