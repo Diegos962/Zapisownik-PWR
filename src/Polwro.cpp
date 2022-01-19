@@ -51,7 +51,7 @@ void LoginWindow::PolwroGUI()
 
 void LoginWindow::PolwroPolwro()
 {
-  labelHead->setText("Logowanie do polwro.pl");
+  labelHead->setText("Logowanie do polwro.com");
   labelHead->setStyleSheet(QString("QLabel {color: %1; font-size: 18px;}").arg(palette().color(QPalette::WindowText).name()));
   labelHead->setVisible(true);
   buttons->setEnabled(true);
@@ -87,14 +87,14 @@ void LoginWindow::PolwroLogin()
   postData.addQueryItem("username", editUsername->text());
   postData.addQueryItem("password", editPassword->text());
   postData.addQueryItem("login", "Zaloguj");
-  QNetworkReply *reply = post(postData, "https://polwro.pl/login.php");
+  QNetworkReply *reply = post(postData, "https://polwro.com/login.php");
   if(error(reply))
     {
       change_head_error("Błąd połączenia");
       buttons->setEnabled(true);
       return;
     }
-  reply = get_page("https://polwro.pl/index.php");
+  reply = get_page("https://polwro.com/index.php");
   if(error(reply))
     {
       change_head_error("Błąd połączenia");
@@ -130,14 +130,14 @@ void LoginWindow::PolwroPobieranie()
     {
       labelHead->setText("POBIERAM: " + nazwy[i]);
       progressBarBot->setValue(0);
-      QString link = "https://polwro.pl/viewforum.php?f=" + typ[i] +"&topicdays=0&start=0";
+      QString link = "https://polwro.com/viewforum.php?f=" + typ[i] +"&topicdays=0&start=0";
       reply = get_page(link);
       QByteArray page = reply->readAll();
       QTextStream stream(&page);
       int strony = PolwroStrony(stream);
       for(int j = 0; j <= strony; j+=50)
 	{
-	  QString link = "https://polwro.pl/viewforum.php?f=" + typ[i] +"&topicdays=0&start=" + QString::number(j);
+	  QString link = "https://polwro.com/viewforum.php?f=" + typ[i] +"&topicdays=0&start=" + QString::number(j);
 	  reply = get_page(link);
 	  QByteArray page = reply->readAll();
 	  QTextStream stream(&page);

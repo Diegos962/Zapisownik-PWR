@@ -41,7 +41,7 @@ void Window::add_child(TreeWidgetItem *treeItem, Kurs a)
 	      prowadzacy->setTextFormat(Qt::RichText);
 	      prowadzacy->setTextInteractionFlags(Qt::TextBrowserInteraction);
 	      prowadzacy->setOpenExternalLinks(true);
-	      data += "       " + QString("<a href=\"http://polwro.pl/%1\">%2</a>").arg(a.dane()[i].link()).arg(a.prowadzacy()[i]);
+	      data += "       " + QString("<a href=\"http://polwro.com/%1\">%2</a>").arg(a.dane()[i].link()).arg(a.prowadzacy()[i]);
 	    }
 	  else
 	    data += "       " + a.prowadzacy()[i];
@@ -149,7 +149,7 @@ void Window::update_tree()
 				prowadzacy->setTextFormat(Qt::RichText);
 				prowadzacy->setTextInteractionFlags(Qt::TextBrowserInteraction);
 				prowadzacy->setOpenExternalLinks(true);
-				data += ' ' + QString("<a href=\"http://polwro.pl/%1\">%2</a>").arg(a.dane()[i].link()).arg(a.prowadzacy()[i]);
+				data += ' ' + QString("<a href=\"http://polwro.com/%1\">%2</a>").arg(a.dane()[i].link()).arg(a.prowadzacy()[i]);
 			      }
 			    else
 			      data += ' ' + a.prowadzacy()[i];
